@@ -1,0 +1,15 @@
+package com.edanrh.apiong.repository;
+
+import java.math.BigInteger;
+import java.util.Optional;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.edanrh.apiong.repository.entities.UserEntity;
+
+public interface RepositoryUser extends CrudRepository<UserEntity,BigInteger> {
+
+    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> deleteByEmail(String email);
+    
+}
