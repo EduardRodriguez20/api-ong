@@ -1,6 +1,7 @@
 package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +19,8 @@ public class Director extends Person{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_headquarter")
+    @NotEmpty(message = "Headquarter can't be null")
+    @Column(name = "id_headquarter", unique = true, nullable = false)
     @ManyToOne
     private Headquarter headquarter;
 }

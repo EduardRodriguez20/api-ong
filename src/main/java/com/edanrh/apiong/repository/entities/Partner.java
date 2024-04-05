@@ -2,9 +2,8 @@ package com.edanrh.apiong.repository.entities;
 
 import java.util.Date;
 
-import com.edanrh.apiong.resources.enums.FeeType;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,13 +21,16 @@ public class Partner extends Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty(message = "The account can't be null")
     @Column(name = "account")
     private Long bankAccount;
 
-    @Column(name = "fee_type")
-    @Enumerated(EnumType.STRING)
-    private FeeType feeType;
+    @NotEmpty(message = "The id fee can't be null")
+    @Column(name = "id_fee")
+    @ManyToOne
+    private AnnualFee fee;
 
+    @NotEmpty(message = "The payment date can't be null")
     @Column(name = "payment_date")
     private Date paymentDate;
 }

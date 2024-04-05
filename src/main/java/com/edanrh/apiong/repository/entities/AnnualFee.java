@@ -1,13 +1,13 @@
 package com.edanrh.apiong.repository.entities;
 
-import com.edanrh.apiong.resources.enums.FeeType;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "annual_fee")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,11 +17,12 @@ public class AnnualFee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private FeeType type;
+    @NotEmpty(message = "The fee's name can't be null")
+    @Column(name = "name", unique = true, nullable = false)
+    private String name;
 
-    @Column(name = "amount")
+    @NotEmpty(message = "The amount can't be null")
+    @Column(name = "amount", nullable = false)
     private double amount;
 
 }
