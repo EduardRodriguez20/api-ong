@@ -18,8 +18,8 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "date")
-    private Date dateDelivery;
+    @Column(name = "departure_date")
+    private Date departureDate;
 
     @Column(name = "id_shelter")
     @ManyToOne
