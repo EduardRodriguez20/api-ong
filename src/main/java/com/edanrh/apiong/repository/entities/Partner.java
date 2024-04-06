@@ -22,15 +22,15 @@ public class Partner extends Person {
     private long id;
 
     @NotEmpty(message = "The account can't be null")
-    @Column(name = "account")
+    @Column(name = "account", nullable = false)
     private Long bankAccount;
 
     @NotEmpty(message = "The id fee can't be null")
-    @Column(name = "id_fee")
+    @Column(name = "id_fee", nullable = false)
     @ManyToOne
     private AnnualFee fee;
 
     @NotEmpty(message = "The payment date can't be null")
-    @Column(name = "payment_date")
+    @Column(name = "payment_date", nullable = false)
     private Date paymentDate;
 }

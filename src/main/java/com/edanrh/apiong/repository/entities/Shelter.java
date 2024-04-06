@@ -1,6 +1,7 @@
 package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,16 @@ public class Shelter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
+    @NotEmpty(message = "Name can't be empty")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "address")
+    @NotEmpty(message = "Address can't be empty")
+    @Column(name = "address", unique = true)
     private String address;
 
-    @Column(name = "id_city")
+    @NotEmpty(message = "City can't be empty")
+    @Column(name = "id_city", nullable = false)
     @ManyToOne
     private City city;
 }

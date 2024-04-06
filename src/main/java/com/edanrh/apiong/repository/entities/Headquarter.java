@@ -1,6 +1,7 @@
 package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,16 @@ public class Headquarter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
+    @NotEmpty(message = "Name can't be empty")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "address")
+    @NotEmpty(message = "Address can't be empty")
+    @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "id_city")
+    @NotEmpty(message = "City's id can't be empty")
+    @Column(name = "id_city", unique = true, nullable = false)
     @OneToOne
     private City city;
 }

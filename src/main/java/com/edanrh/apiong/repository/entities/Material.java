@@ -3,6 +3,7 @@ package com.edanrh.apiong.repository.entities;
 import com.edanrh.apiong.resources.enums.MaterialType;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,13 +19,16 @@ public class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "material_type")
+    @NotEmpty(message = "The material can't be empty")
+    @Column(name = "material_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private MaterialType material;
 
-    @Column(name = "quantity")
+    @NotEmpty(message = "Quantity can't be empty")
+    @Column(name = "quantity", nullable = false)
     private double quantity;
 
-    @Column(name = "description")
+    @NotEmpty(message = "Description can't be empty")
+    @Column(name = "description", nullable = false)
     private String description;
 }

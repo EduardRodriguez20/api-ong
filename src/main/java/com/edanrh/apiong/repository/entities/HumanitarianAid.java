@@ -1,6 +1,7 @@
 package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,18 +17,22 @@ public class HumanitarianAid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_profession")
+    @NotEmpty(message = "Profession can't be null")
+    @Column(name = "id_profession", nullable = false)
     @ManyToOne
     private Profession profession;
 
-    @Column(name = "quantity")
+    @NotEmpty(message = "Quantity can't be null")
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "id_headquarter")
+    @NotEmpty(message = "Headquarter can't be null")
+    @Column(name = "id_headquarter", nullable = false)
     @ManyToOne
     private Headquarter headquarter;
 
-    @Column(name = "id_shipment")
+    @NotEmpty(message = "Shipment can't be null")
+    @Column(name = "id_shipment", nullable = false)
     @ManyToOne
     private Shipment shipment;
 }

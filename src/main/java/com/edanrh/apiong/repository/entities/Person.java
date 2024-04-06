@@ -4,12 +4,12 @@ import com.edanrh.apiong.resources.enums.DocumentType;
 import com.edanrh.apiong.resources.enums.Gender;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-// @Table(name = "persons")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @AllArgsConstructor
@@ -20,24 +20,30 @@ public abstract class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
+    @NotEmpty(message = "Name can't be empty")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "surname")
+    @NotEmpty(message = "Surname can't be empty")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "documentType")
+    @NotEmpty(message = "Document type can't be empty")
+    @Column(name = "documentType", nullable = false)
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
-    @Column(name = "document")
+    @NotEmpty(message = "Document number can't be empty")
+    @Column(name = "document", nullable = false)
     private Long documentNumber;
 
-    @Column(name = "gender")
+    @NotEmpty(message = "Gender can't be empty")
+    @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "email")
+    @NotEmpty(message = "Email can't be empty")
+    @Column(name = "email", nullable = false)
     private String email;
 
     public String getFullName(){
