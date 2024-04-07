@@ -22,7 +22,7 @@ public class Profession {
     private String name;
 
     @NotEmpty(message = "Code Shelter can't be empty")
-    @Column(name = "code_sh", nullable = false)
+    @Column(name = "code_sh", unique = true, nullable = false)
     private String codePr;
     
     public void setCodeSh(){

@@ -13,8 +13,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.edanrh.apiong.services.JWTService;
-import com.edanrh.apiong.services.JWTUserDetailService;
+import com.edanrh.apiong.service.JWTService;
+import com.edanrh.apiong.service.JWTUserDetailService;
 
 import java.io.IOException;
 import java.util.Objects;

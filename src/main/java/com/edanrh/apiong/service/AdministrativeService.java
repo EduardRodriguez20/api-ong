@@ -1,6 +1,7 @@
 package com.edanrh.apiong.service;
 
 import com.edanrh.apiong.dto.AdministrativeDTO;
+import com.edanrh.apiong.repository.entities.Administrative;
 
 import java.util.List;
 

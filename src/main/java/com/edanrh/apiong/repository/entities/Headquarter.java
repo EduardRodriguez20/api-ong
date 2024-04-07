@@ -18,7 +18,7 @@ public class Headquarter {
     private long id;
 
     @NotEmpty(message = "Code Headquarter can't be empty")
-    @Column(name = "code_hq", nullable = false)
+    @Column(name = "code_hq",unique = true, nullable = false)
     private String codeHq;
 
     @NotEmpty(message = "Name can't be empty")

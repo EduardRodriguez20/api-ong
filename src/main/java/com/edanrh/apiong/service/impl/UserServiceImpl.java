@@ -1,9 +1,9 @@
-package com.edanrh.apiong.services.impl;
+package com.edanrh.apiong.service.impl;
 
 import java.util.List;
 
 import com.edanrh.apiong.repository.entities.UserEntity;
-import com.edanrh.apiong.services.UserService;
+import com.edanrh.apiong.service.UserService;
 
 public class UserServiceImpl implements UserService{
 

@@ -13,12 +13,19 @@ import lombok.AllArgsConstructor;
 public class SanitaryDTOConvert {
     
     private ModelMapper mapper;
+    private PersonDTOConvert personDTOConvert;
 
     public SanitaryDTO toDTO(Sanitary sanitary){
-        return mapper.map(sanitary, SanitaryDTO.class);
+        SanitaryDTO dto = mapper.map(sanitary, SanitaryDTO.class);
+        dto.setData(personDTOConvert.toDTO(sanitary));
+        return dto;
     }
 
     public Sanitary toEntity(SanitaryDTO sanitaryDTO){
-        return mapper.map(sanitaryDTO, Sanitary.class);
+        Sanitary sanitary = mapper.map(sanitaryDTO, Sanitary.class);
+        System.out.println("sanitary dto before add data"+sanitary);
+        personDTOConvert.addPersonalData(sanitary, sanitaryDTO.getData());
+        System.out.println("sanitary dto after add data"+sanitary);
+        return sanitary;
     }
 }

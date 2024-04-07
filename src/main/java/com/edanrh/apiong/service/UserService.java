@@ -1,4 +1,4 @@
-package com.edanrh.apiong.services;
+package com.edanrh.apiong.service;
 
 import java.util.List;
 

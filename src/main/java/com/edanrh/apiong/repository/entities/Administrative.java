@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "administratives")
+@Table(name = "administrative")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor

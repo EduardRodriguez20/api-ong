@@ -20,7 +20,7 @@ public class Shipment {
     private long id;
 
     @NotEmpty(message = "Code shp can't be null")
-    @Column(name = "code_shp", nullable = false)
+    @Column(name = "code_shp", unique = true, nullable = false)
     private String codeShp;
 
     @NotEmpty(message = "Departure date can't be null")

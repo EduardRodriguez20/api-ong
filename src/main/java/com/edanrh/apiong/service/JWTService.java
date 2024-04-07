@@ -1,4 +1,4 @@
-package com.edanrh.apiong.services;
+package com.edanrh.apiong.service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;

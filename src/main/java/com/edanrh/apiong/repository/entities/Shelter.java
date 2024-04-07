@@ -31,7 +31,7 @@ public class Shelter {
     private String address;
 
     @NotEmpty(message = "Code Shelter can't be empty")
-    @Column(name = "code_sh", nullable = false)
+    @Column(name = "code_sh", unique = true, nullable = false)
     private String codeSh;
 
     public void setCodeSh(){

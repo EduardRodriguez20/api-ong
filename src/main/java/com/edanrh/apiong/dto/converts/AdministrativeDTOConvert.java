@@ -1,5 +1,6 @@
 package com.edanrh.apiong.dto.converts;
 
+import com.edanrh.apiong.repository.entities.Person;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +14,19 @@ import lombok.AllArgsConstructor;
 public class AdministrativeDTOConvert {
     
     private ModelMapper mapper;
+    private PersonDTOConvert personDTOConvert;
 
     public AdministrativeDTO toDTO(Administrative administrative) {
-        return mapper.map(administrative, AdministrativeDTO.class);
+        AdministrativeDTO result = mapper.map(administrative, AdministrativeDTO.class);
+        result.setData(personDTOConvert.toDTO(administrative));
+        return result;
     }
 
     public Administrative toEntity(AdministrativeDTO administrativeDTO) {
-        return mapper.map(administrativeDTO, Administrative.class);
+        Administrative result = mapper.map(administrativeDTO, Administrative.class);
+        System.out.println("admin dto before add data"+result);
+        personDTOConvert.addPersonalData(result, administrativeDTO.getData());
+        System.out.println("admin dto after add data"+result);
+        return result;
     }
 }

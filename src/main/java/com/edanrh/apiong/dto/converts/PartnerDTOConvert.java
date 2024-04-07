@@ -13,12 +13,19 @@ import lombok.AllArgsConstructor;
 public class PartnerDTOConvert {
     
     private ModelMapper mapper;
+    private PersonDTOConvert personDTOConvert;
 
-    public PartnerDTO toDTO(Partner partern){
-        return mapper.map(partern, PartnerDTO.class);
+    public PartnerDTO toDTO(Partner partner){
+        PartnerDTO dto = mapper.map(partner, PartnerDTO.class);
+        dto.setData(personDTOConvert.toDTO(partner));
+        return dto;
     }
 
     public Partner toEntity(PartnerDTO partnerDTO){
-        return mapper.map(partnerDTO, Partner.class);
+        Partner partner = mapper.map(partnerDTO, Partner.class);
+        System.out.println("partner dto before add data"+partner);
+        personDTOConvert.addPersonalData(partner, partnerDTO.getData());
+        System.out.println("partner dto after add data"+partner);
+        return partner;
     }
 }

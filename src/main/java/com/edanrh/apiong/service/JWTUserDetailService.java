@@ -1,4 +1,4 @@
-package com.edanrh.apiong.services;
+package com.edanrh.apiong.service;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

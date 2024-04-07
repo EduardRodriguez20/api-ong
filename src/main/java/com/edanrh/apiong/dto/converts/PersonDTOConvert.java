@@ -21,5 +21,14 @@ public class PersonDTOConvert {
     public Person toEntity(PersonDTO personDTO) {
         return mapper.map(personDTO, Person.class);
     }
+
+    public void addPersonalData(Person person, PersonDTO personDTO) {
+        person.setName(personDTO.getName());
+        person.setSurname(personDTO.getSurname());
+        person.setDocumentType(personDTO.getDocumentType());
+        person.setDocumentNumber(personDTO.getDocumentNumber());
+        person.setGender(personDTO.getGender());
+        person.setEmail(personDTO.getEmail());
+    }
     
 }
