@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="631e022f-451f-4c59-9780-a3cc1a1130db" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/exceptions/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/AnnualFeeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/CityService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/DirectorService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/HeadquarterService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/HumanitarianAidService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/MaterialAidService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/MaterialService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/PartnerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/ProfessionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/SanitaryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/ShelterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/AdministrativeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/AdministrativeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/config/ModelMapperConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/AdministrativeDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/AnnualFeeDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/CityDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/DirectorDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/HeadquarterDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/HumanitarianAidDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/MaterialAidDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/MaterialDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/PartnerDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/PersonDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/ProfessionDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/SanitaryDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/ShelterDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/ShipmentDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/AdministrativeDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/AnnualFeeDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/CityDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/DirectorDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/HeadquarterDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/HumanitarianAidDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/MaterialAidDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/MaterialDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/PartnerDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/PersonDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/ProfessionDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/SanitaryDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/ShelterDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/dto/converts/ShipmentDTOConvert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/AdministrativeRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/DirectorRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/HeadquarterRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/HumanitarianAidRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/MaterialAidRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/PartnerRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/ProfessionRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/SanitaryRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/ShelterRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/ShipmentRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Administrative.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Director.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Headquarter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/HumanitarianAid.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/MaterialAid.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Partner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Profession.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Sanitary.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Shelter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/repository/entities/Shipment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/service/AdministrativeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/edanrh/apiong/services/impl/UserServiceImpl.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;EduardRodriguez20&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/EduardRodriguez20/api-ong.git&quot;,
+    &quot;accountId&quot;: &quot;7b02141c-8700-4012-a518-5081e32cc83a&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2eldB0rZEW7zrTuzsPcqhURiKAW" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/andre/Documentos/GitHub/api-ong"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="631e022f-451f-4c59-9780-a3cc1a1130db" name="Changes" comment="" />
+      <created>1712482960580</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712482960580</updated>
+    </task>
+    <servers />
+  </component>
+</project>

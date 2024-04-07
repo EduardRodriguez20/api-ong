@@ -19,8 +19,8 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Departure date can't be null")
-    @Column(name = "departure_date", nullable = false)
+    @NotEmpty(message = "Code shp can't be null")
+    @Column(name = "code_shp", nullable = false)
     private String codeShp;
 
     @NotEmpty(message = "Departure date can't be null")
