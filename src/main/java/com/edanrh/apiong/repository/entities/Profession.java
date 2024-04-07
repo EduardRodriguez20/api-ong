@@ -20,5 +20,12 @@ public class Profession {
     @NotEmpty(message = "Name can't be empty")
     @Column(name = "name", unique = true, nullable = false)
     private String name;
+
+    @NotEmpty(message = "Code Shelter can't be empty")
+    @Column(name = "code_sh", nullable = false)
+    private String codePr;
     
+    public void setCodeSh(){
+        this.codePr = "PR-" + this.id;
+    }
 }

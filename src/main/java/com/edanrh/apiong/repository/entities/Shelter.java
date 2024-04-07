@@ -21,12 +21,20 @@ public class Shelter {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotEmpty(message = "Address can't be empty")
-    @Column(name = "address", unique = true)
-    private String address;
-
     @NotEmpty(message = "City can't be empty")
     @Column(name = "id_city", nullable = false)
     @ManyToOne
     private City city;
+
+    @NotEmpty(message = "Address can't be empty")
+    @Column(name = "address", unique = true)
+    private String address;
+
+    @NotEmpty(message = "Code Shelter can't be empty")
+    @Column(name = "code_sh", nullable = false)
+    private String codeSh;
+
+    public void setCodeSh(){
+        this.codeSh = "SH-" + this.city.getId() + "-" + this.id;
+    }
 }

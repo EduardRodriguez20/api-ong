@@ -21,11 +21,24 @@ public class Shipment {
 
     @NotEmpty(message = "Departure date can't be null")
     @Column(name = "departure_date", nullable = false)
+    private String codeShp;
+
+    @NotEmpty(message = "Departure date can't be null")
+    @Column(name = "departure_date", nullable = false)
     private Date departureDate;
 
     @NotEmpty(message = "Id shelter can't be null")
     @Column(name = "id_shelter", nullable = false)
     @ManyToOne
     private Shelter shelter;
+
+    public boolean isValidDepartureDate() {
+        Date current = new Date();
+        return this.departureDate.getTime() <= current.getTime();
+    }
+
+    public void setCodeShip(){
+        this.codeShp = "SHP-" + this.id;
+    }
     
 }

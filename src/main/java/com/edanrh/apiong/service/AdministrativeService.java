@@ -1,2 +1,5 @@
-package com.edanrh.apiong.service.impl;public interface AdministrativesService {
+package com.edanrh.apiong.service;
+
+public interface AdministrativeService {
+
 }

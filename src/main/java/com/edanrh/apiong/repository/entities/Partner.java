@@ -21,6 +21,11 @@ public class Partner extends Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty(message = "The headquarter can't be empty")
+    @Column(name = "id_headquarter", nullable = false)
+    @ManyToOne
+    private Headquarter headquarter;
+
     @NotEmpty(message = "The account can't be null")
     @Column(name = "account", nullable = false)
     private Long bankAccount;

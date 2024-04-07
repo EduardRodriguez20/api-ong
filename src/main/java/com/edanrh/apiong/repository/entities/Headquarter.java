@@ -17,6 +17,10 @@ public class Headquarter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty(message = "Code Headquarter can't be empty")
+    @Column(name = "code_hq", nullable = false)
+    private String codeHq;
+
     @NotEmpty(message = "Name can't be empty")
     @Column(name = "name", nullable = false)
     private String name;
@@ -29,4 +33,8 @@ public class Headquarter {
     @Column(name = "id_city", unique = true, nullable = false)
     @OneToOne
     private City city;
+
+    public void setCodeHq(){
+        this.codeHq = "HQ-" + this.city.getId() + "-" + this.id;
+    }
 }

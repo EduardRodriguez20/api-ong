@@ -24,7 +24,9 @@ public class Sanitary extends Person{
     @ManyToOne
     private Profession profession;
 
-    @NotEmpty(message = "Avaliable can't be null")
-    @Column(name = "is_avaliable")
-    private Boolean isAvaliable;
+    @NotEmpty(message = "Available can't be null")
+    @Column(name = "is_available")
+    private Boolean isAvailable;
+
+    private int participation = 0;
 }
