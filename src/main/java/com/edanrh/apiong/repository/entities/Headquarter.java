@@ -34,7 +34,7 @@ public class Headquarter {
     @OneToOne
     private City city;
 
-    public void setCodeHq(){
+    public void generateCodeHq(){
         this.codeHq = "HQ-" + this.city.getId() + "-" + this.id;
     }
 }

@@ -19,14 +19,23 @@ public class Sanitary extends Person{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Profession id can't be null")
+    @NotEmpty(message = "Profession can't be null")
     @Column(name = "id_profession", nullable = false)
     @ManyToOne
     private Profession profession;
+
+    @NotEmpty(message = "Headquarter can't be null")
+    @Column(name = "id_headquarter", nullable = false)
+    @ManyToOne
+    private Headquarter headquarter;
 
     @NotEmpty(message = "Available can't be null")
     @Column(name = "is_available")
     private Boolean isAvailable;
 
     private int participation = 0;
+
+    public void addParticipation(){
+        this.participation++;
+    }
 }

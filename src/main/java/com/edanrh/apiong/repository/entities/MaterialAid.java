@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "material_aid")
 @Data
@@ -18,9 +20,9 @@ public class MaterialAid {
     private long id;
 
     @NotEmpty(message = "Material can't be empty")
-    @Column(name = "id_material", nullable = false)
-    @OneToOne
-    private Material material;
+    @OneToMany
+    @JoinColumn(name = "material_aid_id")
+    private List<Material> material;
 
     @NotEmpty(message = "Material can't be empty")
     @Column(name = "id_headquarter", nullable = false)

@@ -18,6 +18,7 @@ public class DirectorDTOConvert {
     public DirectorDTO toDTO(Director director) {
         DirectorDTO dto = mapper.map(director, DirectorDTO.class);
         dto.setData(personDTOConvert.toDTO(director));
+        dto.setCodeHq(director.getHeadquarter().getCodeHq());
         return dto;
     }
 

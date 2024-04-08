@@ -1,15 +1,17 @@
 package com.edanrh.apiong.repository.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "")
+@Table(name = "shipment")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,21 +25,30 @@ public class Shipment {
     @Column(name = "code_shp", unique = true, nullable = false)
     private String codeShp;
 
+    @ManyToMany
+    @JoinTable(
+            name = "shipment_headquarter",
+            joinColumns = @JoinColumn(name = "shipment_id"),
+            inverseJoinColumns = @JoinColumn(name = "headquarter_id")
+    )
+    private Set<Headquarter> heads = new HashSet<>();
+
     @NotEmpty(message = "Departure date can't be null")
+    @Future(message = "The departure date can't be before the current one")
     @Column(name = "departure_date", nullable = false)
-    private Date departureDate;
+    private LocalDateTime departureDate;
 
     @NotEmpty(message = "Id shelter can't be null")
     @Column(name = "id_shelter", nullable = false)
     @ManyToOne
     private Shelter shelter;
 
-    public boolean isValidDepartureDate() {
-        Date current = new Date();
-        return this.departureDate.getTime() <= current.getTime();
-    }
+//    public boolean isValidDepartureDate() {
+//        Date current = new Date();
+//        return this.departureDate.getTime() <= current.getTime();
+//    }
 
-    public void setCodeShip(){
+    public void generateCodeShp(){
         this.codeShp = "SHP-" + this.id;
     }
     

@@ -15,7 +15,11 @@ public class HumanitarianAidDTOConvert {
     private ModelMapper mapper;
 
     public HumanitarianAidDTO toDTO(HumanitarianAid humanitarianAid) {
-        return mapper.map(humanitarianAid, HumanitarianAidDTO.class);
+        HumanitarianAidDTO dto = mapper.map(humanitarianAid, HumanitarianAidDTO.class);
+        dto.setCodeShp(humanitarianAid.getShipment().getCodeShp());
+        dto.setCodeHq(humanitarianAid.getHeadquarter().getCodeHq());
+        dto.setCodePr(humanitarianAid.getProfession().getCodePr());
+        return dto;
     }
 
     public HumanitarianAid toEntity(HumanitarianAidDTO humanitarianAidDTO) {

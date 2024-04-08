@@ -15,10 +15,8 @@ public class MaterialAidDTOConvert {
     private ModelMapper mapper;
 
     public MaterialAidDTO toDTO(MaterialAid materialAid) {
-        return mapper.map(materialAid, MaterialAidDTO.class);
-    }
-
-    public MaterialAid toEntity(MaterialAidDTO materialDTO) {
-        return mapper.map(materialDTO, MaterialAid.class);
+        MaterialAidDTO dto = new MaterialAidDTO();
+        dto.setCodeHq(materialAid.getHeadquarter().getCodeHq());
+        return dto;
     }
 }

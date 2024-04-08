@@ -3,6 +3,7 @@ package com.edanrh.apiong.service.impl;
 import com.edanrh.apiong.dto.AdministrativeDTO;
 import com.edanrh.apiong.dto.converts.AdministrativeDTOConvert;
 import com.edanrh.apiong.exceptions.ContentNullException;
+import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
 import com.edanrh.apiong.repository.AdministrativeRepository;
 import com.edanrh.apiong.repository.HeadquarterRepository;
@@ -51,10 +52,13 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     @Override
-    public AdministrativeDTO save(AdministrativeDTO administrativeDTO) throws NotFoundException {
+    public AdministrativeDTO save(AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
-        if (head.isEmpty()){
+        Optional<Administrative> existing = administrativeRepository.findByDocument(administrativeDTO.getData().getDocumentNumber());
+        if (existing.isPresent()){
+            throw new DuplicateCreationException("code", "Administrative already exists", HttpStatus.CONFLICT);
+        }else if (head.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()){
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);

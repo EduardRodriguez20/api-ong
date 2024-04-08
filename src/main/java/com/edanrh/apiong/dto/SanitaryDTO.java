@@ -7,5 +7,6 @@ public class SanitaryDTO {
     
     private PersonDTO data;
     private String codePr;
+    private String codeHq;
     private Boolean isAvailable;
 }

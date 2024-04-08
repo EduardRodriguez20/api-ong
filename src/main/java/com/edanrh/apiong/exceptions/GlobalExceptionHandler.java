@@ -47,7 +47,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateCreationException.class)
     public ResponseEntity<StandardizedApiExceptionResponse> handleDuplicationCreationException(DuplicateCreationException ex) {
         StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Duplicate creation error", ex.getCode(), ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ReferencedEntityException.class)
+    public ResponseEntity<StandardizedApiExceptionResponse> handleReferencedEntityException(ReferencedEntityException ex) {
+        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Referenced entity exception", ex.getCode(), ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(QuantityEntityException.class)
+    public ResponseEntity<StandardizedApiExceptionResponse> handleQuantityEntityException(QuantityEntityException ex) {
+        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Quantity entities error", ex.getCode(), ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
