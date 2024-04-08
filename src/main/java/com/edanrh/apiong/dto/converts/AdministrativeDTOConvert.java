@@ -17,8 +17,10 @@ public class AdministrativeDTOConvert {
     private PersonDTOConvert personDTOConvert;
 
     public AdministrativeDTO toDTO(Administrative administrative) {
-        AdministrativeDTO result = mapper.map(administrative, AdministrativeDTO.class);
+        AdministrativeDTO result = new AdministrativeDTO();
         result.setData(personDTOConvert.toDTO(administrative));
+        result.setCodeHq(administrative.getHeadquarter().getCodeHq());
+        result.setCodePr(administrative.getProfession().getCodePr());
         return result;
     }
 
