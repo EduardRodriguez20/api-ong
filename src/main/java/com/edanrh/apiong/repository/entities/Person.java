@@ -4,6 +4,7 @@ import com.edanrh.apiong.resources.enums.DocumentType;
 import com.edanrh.apiong.resources.enums.Gender;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,7 +43,7 @@ public abstract class Person {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @NotEmpty(message = "Email can't be empty")
+    @Email(message = "Must be a valid email address")
     @Column(name = "email", nullable = false)
     private String email;
 

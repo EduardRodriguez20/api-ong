@@ -1,10 +1,15 @@
 package com.edanrh.apiong.service.impl;
 
 import com.edanrh.apiong.dto.MaterialAidDTO;
+import com.edanrh.apiong.dto.MaterialDTO;
 import com.edanrh.apiong.dto.converts.MaterialAidDTOConvert;
+import com.edanrh.apiong.dto.converts.MaterialDTOConvert;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.NotFoundException;
+import com.edanrh.apiong.repository.HeadquarterRepository;
 import com.edanrh.apiong.repository.MaterialAidRepository;
+import com.edanrh.apiong.repository.entities.Headquarter;
+import com.edanrh.apiong.repository.entities.Material;
 import com.edanrh.apiong.repository.entities.MaterialAid;
 import com.edanrh.apiong.repository.entities.Shipment;
 import com.edanrh.apiong.service.MaterialAidService;
@@ -14,13 +19,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class MaterialAidServiceImpl implements MaterialAidService {
 
     private MaterialAidRepository materialAidRepository;
+    private HeadquarterRepository headquarterRepository;
     private MaterialAidDTOConvert dtoConvert;
+    private MaterialDTOConvert materialDTOConvert;
 
     @Override
     public List<MaterialAidDTO> findAll() throws ContentNullException {
@@ -30,6 +38,10 @@ public class MaterialAidServiceImpl implements MaterialAidService {
         }else {
             List<MaterialAidDTO> resultDTO = new ArrayList<>();
             for (MaterialAid materialAid : result) {
+                MaterialAidDTO dto = dtoConvert.toDTO(materialAid);
+                for (Material material : materialAid.getMaterial()){
+                    dto.getMaterial().add(materialDTOConvert.toDTO(material));
+                }
                 resultDTO.add(dtoConvert.toDTO(materialAid));
             }
             return resultDTO;
@@ -37,7 +49,18 @@ public class MaterialAidServiceImpl implements MaterialAidService {
     }
 
     @Override
-    public MaterialAidDTO save(MaterialAidDTO materialAidDTO, Shipment shipment) {
-        return null;
+    public MaterialAidDTO save(MaterialAidDTO materialAidDTO, Shipment shipment) throws NotFoundException {
+        Optional<Headquarter> head = headquarterRepository.findByCodeHq(materialAidDTO.getCodeHq());
+        if (head.isEmpty()){
+            throw new NotFoundException("code", "Headquarter not found", HttpStatus.NOT_FOUND);
+        }else {
+            MaterialAid entity = new MaterialAid();
+            entity.setHeadquarter(head.get());
+            entity.setShipment(shipment);
+            for (MaterialDTO dto : materialAidDTO.getMaterial()){
+                entity.getMaterial().add(materialDTOConvert.toEntity(dto));
+            }
+            return dtoConvert.toDTO(materialAidRepository.save(entity));
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.edanrh.apiong.repository.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -37,5 +37,9 @@ public class Partner extends Person {
 
     @NotEmpty(message = "The payment date can't be null")
     @Column(name = "payment_date", nullable = false)
-    private Date paymentDate;
+    private LocalDate paymentDate;
+
+    public void generatePaymentDate() {
+        this.paymentDate = LocalDate.now();
+    }
 }

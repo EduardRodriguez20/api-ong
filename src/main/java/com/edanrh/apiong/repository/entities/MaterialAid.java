@@ -20,8 +20,7 @@ public class MaterialAid {
     private long id;
 
     @NotEmpty(message = "Material can't be empty")
-    @OneToMany
-    @JoinColumn(name = "material_aid_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialAid")
     private List<Material> material;
 
     @NotEmpty(message = "Material can't be empty")
