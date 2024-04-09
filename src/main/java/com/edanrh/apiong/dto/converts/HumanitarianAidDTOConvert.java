@@ -1,5 +1,6 @@
 package com.edanrh.apiong.dto.converts;
 
+import com.edanrh.apiong.repository.entities.DocSanitarySent;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,9 @@ public class HumanitarianAidDTOConvert {
         dto.setCodeShp(humanitarianAid.getShipment().getCodeShp());
         dto.setCodeHq(humanitarianAid.getHeadquarter().getCodeHq());
         dto.setCodePr(humanitarianAid.getProfession().getCodePr());
+        for (DocSanitarySent doc : humanitarianAid.getDocumentsSanitaries()){
+            dto.getDocuments().add(doc.getDocumentSanitary());
+        }
         return dto;
     }
 

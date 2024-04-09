@@ -8,5 +8,6 @@ public class ShelterDTO {
     private String name;
     private String city;
     private String address;
+    private String codeSh;
     
 }

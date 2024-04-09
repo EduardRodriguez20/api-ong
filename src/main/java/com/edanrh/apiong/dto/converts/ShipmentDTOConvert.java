@@ -15,6 +15,8 @@ public class ShipmentDTOConvert {
     private ModelMapper mapper;
 
     public ShipmentDTO toDTO(Shipment shipment){
+        ShipmentDTO dto = mapper.map(shipment, ShipmentDTO.class);
+        dto.setCodeSh(shipment.getShelter().getCodeSh());
         return mapper.map(shipment, ShipmentDTO.class);
     }
 

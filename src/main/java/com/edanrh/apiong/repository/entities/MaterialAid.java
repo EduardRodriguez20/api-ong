@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "material_aid")
@@ -21,7 +22,7 @@ public class MaterialAid {
 
     @NotEmpty(message = "Material can't be empty")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialAid")
-    private List<Material> material;
+    private Set<Material> material = new HashSet<>();
 
     @NotEmpty(message = "Material can't be empty")
     @Column(name = "id_headquarter", nullable = false)

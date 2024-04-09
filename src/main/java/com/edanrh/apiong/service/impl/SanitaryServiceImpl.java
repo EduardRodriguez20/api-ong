@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import com.edanrh.apiong.dto.SanitaryDTO;
@@ -18,7 +19,10 @@ import com.edanrh.apiong.repository.entities.Headquarter;
 import com.edanrh.apiong.repository.entities.Profession;
 import com.edanrh.apiong.repository.entities.Sanitary;
 import com.edanrh.apiong.service.SanitaryService;
+import org.springframework.stereotype.Service;
 
+@Service
+@AllArgsConstructor
 public class SanitaryServiceImpl implements SanitaryService{
 
     private SanitaryRepository sanitaryRepository;

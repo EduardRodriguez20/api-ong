@@ -34,7 +34,7 @@ public class Shelter {
     @Column(name = "code_sh", unique = true, nullable = false)
     private String codeSh;
 
-    public void setCodeSh(){
+    public void generateCodeSh(){
         this.codeSh = "SH-" + this.city.getId() + "-" + this.id;
     }
 }

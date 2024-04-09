@@ -72,14 +72,22 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     @Override
     public boolean edit(Long document, AdministrativeDTO administrativeDTO) throws NotFoundException {
+        Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
+        Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
         Optional<Administrative> result = administrativeRepository.findByDocument(document);
-        if (result.isPresent()) {
+        if (result.isEmpty()){
+            throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
+        }else if (head.isEmpty()){
+            throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
+        } else if (profession.isEmpty()){
+            throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
+        }else {
             Administrative save = dtoConvert.toEntity(administrativeDTO);
             save.setId(result.get().getId());
+            save.setHeadquarter(head.get());
+            save.setProfession(profession.get());
             administrativeRepository.save(save);
             return true;
-        }else {
-            throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }
     }
 

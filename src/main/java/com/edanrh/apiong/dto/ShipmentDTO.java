@@ -1,6 +1,6 @@
 package com.edanrh.apiong.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Data;
@@ -8,9 +8,10 @@ import lombok.Data;
 @Data
 public class ShipmentDTO {
 
-    private Date departureDate;
+    private LocalDateTime departureDate;
+    private String codeShp;
     private String codeSh;
-    private List<HumanitarianAidDTO> humanAidDTOs;
-    private List<MaterialAidDTO> materialAidDTOs;
+    private List<HumanitarianAidDTO> humanAid;
+    private List<MaterialAidDTO> materialAid;
 
 }

@@ -1,40 +1,92 @@
 package com.edanrh.apiong.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.edanrh.apiong.dto.UserDTO;
+import com.edanrh.apiong.dto.converts.UserDTOConvert;
+import com.edanrh.apiong.exceptions.ContentNullException;
+import com.edanrh.apiong.exceptions.DuplicateCreationException;
+import com.edanrh.apiong.exceptions.NotFoundException;
+import com.edanrh.apiong.repository.RepositoryUser;
+import com.edanrh.apiong.repository.entities.RoleEntity;
 import com.edanrh.apiong.repository.entities.UserEntity;
 import com.edanrh.apiong.service.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService{
 
+    private RepositoryUser repositoryUser;
+    private UserDTOConvert dtoConvert;
+
     @Override
-    public UserEntity save(UserEntity user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    @Transactional
+    public UserDTO save(UserDTO user) throws DuplicateCreationException {
+        Optional<UserEntity> existing = repositoryUser.deleteByEmail(user.getUsername());
+        if (existing.isPresent()) {
+            throw new DuplicateCreationException("code", "User already exists", HttpStatus.CONFLICT);
+        }else{
+            UserEntity entity = dtoConvert.toEntity(user);
+            for (String rol : user.getRoles()){
+                entity.getRoles().add(new RoleEntity(rol));
+            }
+            return dtoConvert.toDTO(repositoryUser.save(entity));
+        }
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByEmail'");
+    public UserDTO findByEmail(String email) throws NotFoundException {
+        Optional<UserEntity> existing = repositoryUser.deleteByEmail(email);
+        if (existing.isPresent()) {
+            return dtoConvert.toDTO(existing.get());
+        }else{
+            throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
-    public List<UserEntity> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    public List<UserDTO> findAll() throws ContentNullException {
+        List<UserEntity> users = (List<UserEntity>) repositoryUser.findAll();
+        if (users.isEmpty()){
+            throw new ContentNullException("code", "There isn't directors", HttpStatus.NO_CONTENT);
+        }else {
+            List<UserDTO> resultDto = new ArrayList<>();
+            for (UserEntity user : users) {
+                resultDto.add(dtoConvert.toDTO(user));
+            }
+            return resultDto;
+        }
     }
 
     @Override
-    public boolean edit(String email, UserEntity user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'edit'");
+    @Transactional
+    public boolean edit(String email, UserDTO user) throws NotFoundException {
+        Optional<UserEntity> existing = repositoryUser.deleteByEmail(email);
+        if (existing.isEmpty()){
+            throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
+        }else{
+            UserEntity entity = existing.get();
+            entity.setPassword(user.getPassword());
+            repositoryUser.save(entity);
+            return true;
+        }
     }
 
     @Override
-    public boolean deleteByEmail(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteByEmail'");
+    @Transactional
+    public boolean deleteByEmail(String email) throws NotFoundException {
+        Optional<UserEntity> existing = repositoryUser.deleteByEmail(email);
+        if (existing.isEmpty()){
+            throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
+        }else {
+            repositoryUser.delete(existing.get());
+            return true;
+        }
     }
-    
 }

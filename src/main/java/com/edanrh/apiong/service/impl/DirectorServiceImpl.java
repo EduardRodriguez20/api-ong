@@ -44,7 +44,7 @@ public class DirectorServiceImpl implements DirectorService {
     public DirectorDTO findByDocument(Long document) throws NotFoundException {
         Optional<Director> director = directorRepository.findByDocument(document);
         if (director.isEmpty()){
-            throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NO_CONTENT);
+            throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }else {
             return dtoConvert.toDTO(director.get());
         }

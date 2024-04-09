@@ -15,7 +15,9 @@ public class ShelterDTOConvert {
     private ModelMapper modelMapper;
 
     public ShelterDTO toDTO(Shelter shelter) {
-        return modelMapper.map(shelter, ShelterDTO.class);
+        ShelterDTO dto = modelMapper.map(shelter, ShelterDTO.class);
+        dto.setCity(shelter.getCity().getName());
+        return dto;
     }
 
     public Shelter toEntity(ShelterDTO shelterDTO) {

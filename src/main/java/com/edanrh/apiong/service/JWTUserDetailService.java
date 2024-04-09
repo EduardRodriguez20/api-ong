@@ -20,14 +20,12 @@ public class JWTUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.repositoryUser.findByEmail(username)
-                .map(usuario -> {
-                    final var authorities = usuario.getRoles()
+                .map(user -> {
+                    final var authorities = user.getRoles()
                             .stream()
                             .map(role -> new SimpleGrantedAuthority(role.getName()))
                             .toList();
-                    return new User(usuario.getEmail(), usuario.getPassword(), authorities);
+                    return new User(user.getEmail(), user.getPassword(), authorities);
                 }).orElseThrow(() -> new UsernameNotFoundException("User not exist"));                
-        }
-
-    
+    }
 }

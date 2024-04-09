@@ -25,14 +25,6 @@ public class Shipment {
     @Column(name = "code_shp", unique = true, nullable = false)
     private String codeShp;
 
-    @ManyToMany
-    @JoinTable(
-            name = "shipment_headquarter",
-            joinColumns = @JoinColumn(name = "shipment_id"),
-            inverseJoinColumns = @JoinColumn(name = "headquarter_id")
-    )
-    private Set<Headquarter> heads = new HashSet<>();
-
     @NotEmpty(message = "Departure date can't be null")
     @Future(message = "The departure date can't be before the current one")
     @Column(name = "departure_date", nullable = false)
@@ -42,11 +34,6 @@ public class Shipment {
     @Column(name = "id_shelter", nullable = false)
     @ManyToOne
     private Shelter shelter;
-
-//    public boolean isValidDepartureDate() {
-//        Date current = new Date();
-//        return this.departureDate.getTime() <= current.getTime();
-//    }
 
     public void generateCodeShp(){
         this.codeShp = "SHP-" + this.id;

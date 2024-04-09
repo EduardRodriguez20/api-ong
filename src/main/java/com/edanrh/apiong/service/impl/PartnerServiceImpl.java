@@ -8,17 +8,18 @@ import com.edanrh.apiong.exceptions.NotFoundException;
 import com.edanrh.apiong.repository.AnnualFeeRepository;
 import com.edanrh.apiong.repository.HeadquarterRepository;
 import com.edanrh.apiong.repository.PartnerRepository;
-import com.edanrh.apiong.repository.entities.AnnualFee;
-import com.edanrh.apiong.repository.entities.Headquarter;
-import com.edanrh.apiong.repository.entities.Partner;
+import com.edanrh.apiong.repository.entities.*;
 import com.edanrh.apiong.service.PartnerService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+@Service
+@AllArgsConstructor
 public class PartnerServiceImpl implements PartnerService {
 
     private PartnerRepository partnerRepository;
@@ -30,7 +31,7 @@ public class PartnerServiceImpl implements PartnerService {
     public List<PartnerDTO> findAll() throws ContentNullException {
         List<Partner> result = (List<Partner>) partnerRepository.findAll();
         if (result.isEmpty()){
-            throw new ContentNullException("code", "There isn't partner data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException("code", "There aren't partner data", HttpStatus.NO_CONTENT);
         }else {
             List<PartnerDTO> resultDTO = new ArrayList<>();
             for (Partner partner : result) {

@@ -15,5 +15,8 @@ public class RoleEntity {
     private BigInteger id;
     @Column(name = "role_name")
     private String name;
-    private String description;
+
+    public RoleEntity(String name){
+        this.name = name;
+    }
 }

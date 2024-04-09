@@ -85,6 +85,9 @@ public class HeadquarterServiceImpl implements HeadquarterService {
         } else {
             Headquarter headquarter = dtoConvert.toEntity(headquarterDTO);
             headquarter.setCity(city.get());
+            Headquarter saved = headquarterRepository.save(headquarter);
+            headquarter.setId(saved.getId());
+            headquarter.generateCodeHq();
             headquarterRepository.save(headquarter);
             return true;
         }

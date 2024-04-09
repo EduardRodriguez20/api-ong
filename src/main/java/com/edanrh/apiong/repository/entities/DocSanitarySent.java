@@ -4,23 +4,24 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "directors")
+@Table(name = "sanitary_sent")
 @Data
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Director extends Person{
-    
+public class DocSanitarySent {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Headquarter can't be empty")
-    @Column(name = "id_headquarter", unique = true, nullable = false)
-    @ManyToOne
-    private Headquarter headquarter;
+    @NotEmpty(message = "Document of sanitary sent can't be empty")
+    @Column(name = "name", nullable = false)
+    private Long documentSanitary;
+
+    public DocSanitarySent(Long documentSanitary){
+        this.documentSanitary = documentSanitary;
+    }
 }

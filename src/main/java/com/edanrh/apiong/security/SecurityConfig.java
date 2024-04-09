@@ -37,7 +37,7 @@ public class SecurityConfig{
                     .requestMatchers("/prestamos/**", "/libreria/**").hasAnyRole("LIBRARIAN", "ADMIN")
                     .requestMatchers("/users/**").hasRole("ADMIN")
                     .requestMatchers("/authenticate", "/register").permitAll()
-                    .requestMatchers(SWAGGER_WHILELIST).permitAll()
+                    .requestMatchers(SWAGGER_WHITELIST).permitAll()
                     .anyRequest().authenticated())
                 .addFilterAfter(jwtValidationFilter, UsernamePasswordAuthenticationFilter.class);
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
@@ -48,7 +48,7 @@ public class SecurityConfig{
         return http.build();
     }
 
-    private static final String[] SWAGGER_WHILELIST = {
+    private static final String[] SWAGGER_WHITELIST = {
         "/swagger-ui/**",
         "/v3/api-docs/**",
         "/swagger-resources/**",

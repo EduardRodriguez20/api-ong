@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "humanitarian_aid")
 @Data
@@ -35,4 +38,12 @@ public class HumanitarianAid {
     @Column(name = "id_shipment", nullable = false)
     @ManyToOne
     private Shipment shipment;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "aid_sanitary_document",
+            joinColumns = @JoinColumn(name = "humanitarian_aid_id"),
+            inverseJoinColumns = @JoinColumn(name = "sanitary_sent_id")
+    )
+    private Set<DocSanitarySent> documentsSanitaries = new HashSet<>();
 }
