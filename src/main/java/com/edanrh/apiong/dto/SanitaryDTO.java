@@ -9,4 +9,6 @@ public class SanitaryDTO {
     private String codePr;
     private String codeHq;
     private Boolean isAvailable;
+    private int participation;
+
 }

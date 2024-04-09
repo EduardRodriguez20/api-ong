@@ -18,4 +18,4 @@ public interface SanitaryRepository extends CrudRepository<Sanitary, Long>{
     @Query("SELECT s FROM sanitaries s WHERE s.profession.codePr = ?1 AND " +
             "s.headquarter.codeHq = ?2 AND s.isAvailable ORDER BY s.participation ASC")
     List<Sanitary> findByCodePrAndCodeHq(String codePr, String codeHq);
-}
+} 

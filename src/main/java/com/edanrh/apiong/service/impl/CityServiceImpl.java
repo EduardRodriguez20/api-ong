@@ -10,7 +10,6 @@ import com.edanrh.apiong.repository.CityRepository;
 import com.edanrh.apiong.repository.HeadquarterRepository;
 import com.edanrh.apiong.repository.ShelterRepository;
 import com.edanrh.apiong.repository.entities.City;
-import com.edanrh.apiong.repository.entities.Headquarter;
 import com.edanrh.apiong.service.CityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

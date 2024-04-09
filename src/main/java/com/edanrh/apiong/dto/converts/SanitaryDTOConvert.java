@@ -18,6 +18,8 @@ public class SanitaryDTOConvert {
     public SanitaryDTO toDTO(Sanitary sanitary){
         SanitaryDTO dto = mapper.map(sanitary, SanitaryDTO.class);
         dto.setData(personDTOConvert.toDTO(sanitary));
+        dto.setCodeHq(sanitary.getHeadquarter().getCodeHq());
+        dto.setCodePr(sanitary.getProfession().getCodePr());
         return dto;
     }
 

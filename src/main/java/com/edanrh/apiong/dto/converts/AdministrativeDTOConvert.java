@@ -1,6 +1,5 @@
 package com.edanrh.apiong.dto.converts;
 
-import com.edanrh.apiong.repository.entities.Person;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

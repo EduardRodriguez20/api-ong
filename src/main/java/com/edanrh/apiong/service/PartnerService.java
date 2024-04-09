@@ -12,5 +12,5 @@ public interface PartnerService {
     PartnerDTO findByDocument (Long document) throws NotFoundException;
     PartnerDTO save (PartnerDTO partner) throws DuplicateCreationException, NotFoundException;
     boolean edit (Long document, PartnerDTO partner) throws NotFoundException;
-    boolean delete (Long document);
+    boolean delete (Long document) throws NotFoundException;
 }

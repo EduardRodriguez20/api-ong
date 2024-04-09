@@ -14,7 +14,6 @@ import com.edanrh.apiong.repository.entities.Partner;
 import com.edanrh.apiong.service.PartnerService;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -96,7 +95,13 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public boolean delete(Long document) {
-        return false;
+    public boolean delete(Long document) throws NotFoundException {
+        Optional<Partner> existing = partnerRepository.findByDocument(document);
+        if(existing.isEmpty()){
+            throw new NotFoundException("document", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
+        }else{
+            partnerRepository.delete(existing.get());
+            return true;
+        }
     }
 }

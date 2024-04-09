@@ -4,7 +4,6 @@ import com.edanrh.apiong.dto.AdministrativeDTO;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
-import com.edanrh.apiong.repository.entities.Administrative;
 
 import java.util.List;
 
