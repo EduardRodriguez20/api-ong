@@ -54,8 +54,8 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public boolean edit(CityDTO cityDTO) throws NotFoundException {
-        Optional<City> city = cityRepository.findByName(cityDTO.getName());
+    public boolean edit(CityDTO cityDTO, String name) throws NotFoundException {
+        Optional<City> city = cityRepository.findByName(name);
         if (city.isPresent()) {
             city.get().setName(cityDTO.getName());
             city.get().setDepartment(cityDTO.getDepartment());
@@ -67,12 +67,12 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public boolean delete(CityDTO cityDTO) throws NotFoundException, ReferencedEntityException {
-        Optional<City> city = cityRepository.findByName(cityDTO.getName());
+    public boolean delete(String name) throws NotFoundException, ReferencedEntityException {
+        Optional<City> city = cityRepository.findByName(name);
         if (city.isPresent()) {
-            if (shelterRepository.existsByCityName(cityDTO.getName())){
+            if (shelterRepository.existsByCityName(city.get().getName())){
                 throw new ReferencedEntityException("code", "City has shelters linked", HttpStatus.CONFLICT);
-            }else if (headquarterRepository.existsByCityName(cityDTO.getName())){
+            }else if (headquarterRepository.existsByCityName(city.get().getName())){
                 throw new ReferencedEntityException("code", "City has headquarters linked", HttpStatus.CONFLICT);
             }else {
                 cityRepository.delete(city.get());

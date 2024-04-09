@@ -11,6 +11,6 @@ import java.util.List;
 public interface CityService {
     List<CityDTO> findAll() throws ContentNullException;
     CityDTO save(CityDTO cityDTO) throws DuplicateCreationException;
-    boolean edit(CityDTO cityDTO) throws NotFoundException;
-    boolean delete(CityDTO cityDTO) throws NotFoundException, ReferencedEntityException;
+    boolean edit(CityDTO cityDTO, String name) throws NotFoundException;
+    boolean delete(String name) throws NotFoundException, ReferencedEntityException;
 }
