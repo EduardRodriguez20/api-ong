@@ -19,6 +19,7 @@ public class DirectorDTOConvert {
         DirectorDTO dto = mapper.map(director, DirectorDTO.class);
         dto.setData(personDTOConvert.toDTO(director));
         dto.setCodeHq(director.getHeadquarter().getCodeHq());
+        dto.setPassword("******");
         return dto;
     }
 

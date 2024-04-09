@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.edanrh.apiong.repository.PersonRepository;
+import com.edanrh.apiong.repository.entities.Person;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
@@ -28,6 +30,7 @@ public class SanitaryServiceImpl implements SanitaryService{
     private SanitaryRepository sanitaryRepository;
     private ProfessionRepository professionRepository;
     private HeadquarterRepository headquarterRepository;
+    private PersonRepository personRepository;
     private SanitaryDTOConvert dtoConvert;
 
     @Override
@@ -59,12 +62,15 @@ public class SanitaryServiceImpl implements SanitaryService{
         Optional<Sanitary> existing = sanitaryRepository.findByDocument(sanitaryDTO.getData().getDocumentNumber());
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(sanitaryDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
+        Optional<Person> person = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
         if (existing.isPresent()){
             throw new DuplicateCreationException("code", "Sanitary already exists", HttpStatus.CONFLICT);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()) {
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
+        } else if (person.isPresent()) {
+            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else {
             Sanitary sanitary = dtoConvert.toEntity(sanitaryDTO);
             sanitary.setHeadquarter(head.get());
@@ -75,16 +81,19 @@ public class SanitaryServiceImpl implements SanitaryService{
     }
 
     @Override
-    public boolean edit(Long document, SanitaryDTO sanitaryDTO) throws NotFoundException {
+    public boolean edit(Long document, SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException {
         Optional<Sanitary> existing = sanitaryRepository.findByDocument(document);
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(sanitaryDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
+        Optional<Person> person = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
         if (existing.isEmpty()){
             throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()) {
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
+        } else if (person.isPresent()) {
+            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else {
             Sanitary sanitary = dtoConvert.toEntity(sanitaryDTO);
             sanitary.setHeadquarter(head.get());

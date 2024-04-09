@@ -55,7 +55,7 @@ public class PartnerController {
     }
 
     @PutMapping("/edit/{document}")
-    public ResponseEntity<?> edit(@Valid @RequestBody PartnerDTO partnerDTO, @RequestParam Long document) throws NotFoundException {
+    public ResponseEntity<?> edit(@Valid @RequestBody PartnerDTO partnerDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
         Map<String,Object> response=new HashMap<>();
         try{
             partnerService.edit(document,partnerDTO);

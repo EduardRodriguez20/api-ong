@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/sanitary")
 @AllArgsConstructor
 public class SanitaryController {
 
@@ -55,7 +55,7 @@ public class SanitaryController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> edit(@Valid @RequestBody SanitaryDTO sanitaryDTO, @RequestParam Long document) throws NotFoundException {
+    public ResponseEntity<?> edit(@Valid @RequestBody SanitaryDTO sanitaryDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
         Map<String,Object> response=new HashMap<>();
         try{
             sanitaryService.edit(document, sanitaryDTO);

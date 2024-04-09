@@ -11,6 +11,6 @@ public interface PartnerService {
     List<PartnerDTO> findAll() throws ContentNullException;
     PartnerDTO findByDocument (Long document) throws NotFoundException;
     PartnerDTO save (PartnerDTO partner) throws DuplicateCreationException, NotFoundException;
-    boolean edit (Long document, PartnerDTO partner) throws NotFoundException;
+    boolean edit (Long document, PartnerDTO partner) throws NotFoundException, DuplicateCreationException;
     boolean delete (Long document) throws NotFoundException;
 }

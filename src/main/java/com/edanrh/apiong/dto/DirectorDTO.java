@@ -7,5 +7,6 @@ public class DirectorDTO {
     
     private PersonDTO data;
     private String CodeHq;
+    private String password;
 
 }

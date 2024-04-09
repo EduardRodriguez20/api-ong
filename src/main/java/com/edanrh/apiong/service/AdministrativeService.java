@@ -11,6 +11,6 @@ public interface AdministrativeService {
     List<AdministrativeDTO> findAll() throws ContentNullException;
     AdministrativeDTO findByDocument(Long document) throws NotFoundException;
     AdministrativeDTO save(AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException;
-    boolean edit(Long document, AdministrativeDTO administrativeDTO) throws NotFoundException;
+    boolean edit(Long document, AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException;
     boolean delete(Long document) throws NotFoundException;
 }

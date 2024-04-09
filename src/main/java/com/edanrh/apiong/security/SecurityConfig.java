@@ -33,10 +33,10 @@ public class SecurityConfig{
         requestHandler.setCsrfRequestAttributeName("_csrf");
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/prestamos/crear", "/libreria/listar").authenticated()
-                    .requestMatchers("/prestamos/**", "/libreria/**").hasAnyRole("LIBRARIAN", "ADMIN")
-                    .requestMatchers("/users/**").hasRole("ADMIN")
-                    .requestMatchers("/authenticate", "/register").permitAll()
+                    .requestMatchers("/partner/**", "/sanitary/**", "/administrative/**", "/shipment/**").hasAnyRole("DIRECTOR", "ADMIN")
+                    .requestMatchers("/reports/**").hasAnyRole("ASSISTANT", "ADMIN")
+                    .requestMatchers("/annualFee/**", "/city/**", "/director/**", "/headquarter/**", "/shelter").hasRole("DIRECTOR")
+                    .requestMatchers("/authenticate").permitAll()
                     .requestMatchers(SWAGGER_WHITELIST).permitAll()
                     .anyRequest().authenticated())
                 .addFilterAfter(jwtValidationFilter, UsernamePasswordAuthenticationFilter.class);

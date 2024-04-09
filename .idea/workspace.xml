@@ -6,17 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="631e022f-451f-4c59-9780-a3cc1a1130db" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/AdministrativeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/AdministrativeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/AnnualFeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/AnnualFeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/CityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/CityController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/DirectorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/DirectorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/HeadquarterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/HeadquarterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/PartnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/PartnerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/SanitaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/SanitaryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/ShelterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/ShelterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/ShipmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/ShipmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/CityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/CityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/CityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/CityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/DirectorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/DirectorDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/converts/DirectorDTOConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/converts/DirectorDTOConvert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/repository/PersonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/repository/PersonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/repository/entities/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/repository/entities/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/repository/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/repository/entities/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/AdministrativeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/AdministrativeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/DirectorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/DirectorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/PartnerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/PartnerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/SanitaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/SanitaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/AdministrativeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/AdministrativeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/DirectorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/DirectorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/PartnerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/PartnerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/SanitaryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/SanitaryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

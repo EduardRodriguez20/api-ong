@@ -44,7 +44,7 @@ public abstract class Person {
     private Gender gender;
 
     @Email(message = "Must be a valid email address")
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     public String getFullName(){

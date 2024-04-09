@@ -55,7 +55,7 @@ public class AdministrativeController {
     }
 
     @PutMapping("/edit/{document}")
-    public ResponseEntity<?> edit(@Valid @RequestBody AdministrativeDTO administrativeDTO, @RequestParam Long document) throws NotFoundException {
+    public ResponseEntity<?> edit(@Valid @RequestBody AdministrativeDTO administrativeDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
         Map<String,Object> response=new HashMap<>();
         try{
             administrativeService.edit(document,administrativeDTO);

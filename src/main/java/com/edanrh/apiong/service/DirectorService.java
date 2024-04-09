@@ -11,6 +11,6 @@ public interface DirectorService {
     List<DirectorDTO> findAll() throws ContentNullException;
     DirectorDTO findByDocument(Long document) throws NotFoundException;
     DirectorDTO save(DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException;
-    boolean edit(Long document, DirectorDTO directorDTO) throws NotFoundException;
+    boolean edit(Long document, DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException;
     boolean delete(Long document) throws NotFoundException;
 }

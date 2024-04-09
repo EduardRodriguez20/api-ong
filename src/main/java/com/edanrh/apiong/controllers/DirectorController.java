@@ -57,7 +57,7 @@ public class DirectorController {
     }
 
     @PutMapping("/edit/{document}")
-    public ResponseEntity<?> edit(@Valid @RequestBody DirectorDTO directorDTO, @RequestParam Long document) throws NotFoundException {
+    public ResponseEntity<?> edit(@Valid @RequestBody DirectorDTO directorDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
         Map<String,Object> response=new HashMap<>();
         try{
             directorService.edit(document ,directorDTO);

@@ -11,6 +11,6 @@ public interface SanitaryService {
     List<SanitaryDTO> findAll() throws ContentNullException;
     SanitaryDTO save(SanitaryDTO sanitaryDTO) throws DuplicateCreationException, NotFoundException;
     SanitaryDTO findByDocument(Long document) throws NotFoundException;
-    boolean edit(Long document, SanitaryDTO sanitaryDTO) throws NotFoundException;
+    boolean edit(Long document, SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException;
     boolean delete(Long document) throws NotFoundException;
 }

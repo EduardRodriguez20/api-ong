@@ -7,9 +7,11 @@ import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
 import com.edanrh.apiong.repository.AdministrativeRepository;
 import com.edanrh.apiong.repository.HeadquarterRepository;
+import com.edanrh.apiong.repository.PersonRepository;
 import com.edanrh.apiong.repository.ProfessionRepository;
 import com.edanrh.apiong.repository.entities.Administrative;
 import com.edanrh.apiong.repository.entities.Headquarter;
+import com.edanrh.apiong.repository.entities.Person;
 import com.edanrh.apiong.repository.entities.Profession;
 import com.edanrh.apiong.service.AdministrativeService;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     private AdministrativeRepository administrativeRepository;
     private HeadquarterRepository headquarterRepository;
+    private PersonRepository personRepository;
     private ProfessionRepository professionRepository;
     private AdministrativeDTOConvert dtoConvert;
 
@@ -56,13 +59,16 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
         Optional<Administrative> existing = administrativeRepository.findByDocument(administrativeDTO.getData().getDocumentNumber());
+        Optional<Person> person = personRepository.findByEmail(administrativeDTO.getData().getEmail());
         if (existing.isPresent()){
             throw new DuplicateCreationException("code", "Administrative already exists", HttpStatus.CONFLICT);
         }else if (head.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()){
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
-        }else {
+        } else if (person.isPresent()) {
+            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else {
             Administrative entity = dtoConvert.toEntity(administrativeDTO);
             entity.setHeadquarter(head.get());
             entity.setProfession(profession.get());
@@ -71,17 +77,20 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     @Override
-    public boolean edit(Long document, AdministrativeDTO administrativeDTO) throws NotFoundException {
+    public boolean edit(Long document, AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
         Optional<Administrative> result = administrativeRepository.findByDocument(document);
+        Optional<Person> person = personRepository.findByEmail(administrativeDTO.getData().getEmail());
         if (result.isEmpty()){
             throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }else if (head.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()){
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
-        }else {
+        } else if (person.isPresent()) {
+            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else {
             Administrative save = dtoConvert.toEntity(administrativeDTO);
             save.setId(result.get().getId());
             save.setHeadquarter(head.get());

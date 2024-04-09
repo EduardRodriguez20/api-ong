@@ -1,6 +1,7 @@
 package com.edanrh.apiong.controllers;
 
 import com.edanrh.apiong.dto.UserDTO;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -24,7 +25,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> save(@Valid @RequestBody UserDTO userDTO) throws DuplicateCreationException {
+    public ResponseEntity<?> save(@Valid @RequestBody UserDTO userDTO) throws DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             UserDTO user = userService.save(userDTO);
@@ -62,7 +63,7 @@ public class UserController {
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity<?> edit(@Valid @RequestBody UserDTO userDTO, @RequestParam String email) throws NotFoundException {
+    public ResponseEntity<?> edit(@Valid @RequestBody UserDTO userDTO, @RequestParam String email) throws NotFoundException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             userService.edit(email,userDTO);

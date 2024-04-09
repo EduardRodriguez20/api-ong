@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.edanrh.apiong.dto.UserDTO;
 import com.edanrh.apiong.dto.converts.UserDTOConvert;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -27,16 +28,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public UserDTO save(UserDTO user) throws DuplicateCreationException {
+    public UserDTO save(UserDTO user) throws DuplicateCreationException, BussinesRuleException {
         Optional<UserEntity> existing = repositoryUser.deleteByEmail(user.getUsername());
         if (existing.isPresent()) {
             throw new DuplicateCreationException("code", "User already exists", HttpStatus.CONFLICT);
         }else{
-            UserEntity entity = dtoConvert.toEntity(user);
-            for (String rol : user.getRoles()){
-                entity.getRoles().add(new RoleEntity(rol));
+            if (user.getRoles().contains("ROLE_DIRECTOR")){
+                throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
+            }else {
+                UserEntity entity = dtoConvert.toEntity(user);
+                for (String rol : user.getRoles()){
+                    entity.getRoles().add(new RoleEntity(rol));
+                }
+                return dtoConvert.toDTO(repositoryUser.save(entity));
             }
-            return dtoConvert.toDTO(repositoryUser.save(entity));
         }
     }
 
@@ -54,7 +59,7 @@ public class UserServiceImpl implements UserService{
     public List<UserDTO> findAll() throws ContentNullException {
         List<UserEntity> users = (List<UserEntity>) repositoryUser.findAll();
         if (users.isEmpty()){
-            throw new ContentNullException("code", "There isn't directors", HttpStatus.NO_CONTENT);
+            throw new ContentNullException("code", "There isn't users", HttpStatus.NO_CONTENT);
         }else {
             List<UserDTO> resultDto = new ArrayList<>();
             for (UserEntity user : users) {
@@ -66,15 +71,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public boolean edit(String email, UserDTO user) throws NotFoundException {
+    public boolean edit(String email, UserDTO user) throws NotFoundException, BussinesRuleException {
         Optional<UserEntity> existing = repositoryUser.deleteByEmail(email);
         if (existing.isEmpty()){
             throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
         }else{
-            UserEntity entity = existing.get();
-            entity.setPassword(user.getPassword());
-            repositoryUser.save(entity);
-            return true;
+            if (user.getRoles().contains("ROLE_DIRECTOR")){
+                throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
+            }else {
+                UserEntity entity = existing.get();
+                entity.setPassword(user.getPassword());
+                repositoryUser.save(entity);
+                return true;
+            }
         }
     }
 

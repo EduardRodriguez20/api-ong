@@ -27,4 +27,9 @@ public class UserEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
     private List<RoleEntity> roles;
+
+    public UserEntity (String email, String password){
+        this.email = email;
+        this.password = password;
+    }
 }

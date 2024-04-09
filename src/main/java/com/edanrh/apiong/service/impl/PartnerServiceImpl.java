@@ -8,6 +8,7 @@ import com.edanrh.apiong.exceptions.NotFoundException;
 import com.edanrh.apiong.repository.AnnualFeeRepository;
 import com.edanrh.apiong.repository.HeadquarterRepository;
 import com.edanrh.apiong.repository.PartnerRepository;
+import com.edanrh.apiong.repository.PersonRepository;
 import com.edanrh.apiong.repository.entities.*;
 import com.edanrh.apiong.service.PartnerService;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class PartnerServiceImpl implements PartnerService {
     private PartnerRepository partnerRepository;
     private AnnualFeeRepository annualFeeRepository;
     private HeadquarterRepository headquarterRepository;
+    private PersonRepository personRepository;
     private PartnerDTOConvert dtoConvert;
 
     @Override
@@ -59,12 +61,15 @@ public class PartnerServiceImpl implements PartnerService {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(partner.getCodeHq());
         Optional<Partner> existing = partnerRepository.findByDocument(partner.getData().getDocumentNumber());
         Optional<AnnualFee> annualFee = annualFeeRepository.findByName(partner.getFee());
+        Optional<Person> person = personRepository.findByEmail(partner.getData().getEmail());
         if (existing.isPresent()){
             throw new DuplicateCreationException("code", "Partner already exists", HttpStatus.CONFLICT);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (annualFee.isEmpty()) {
             throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
+        } else if (person.isPresent()) {
+            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else {
             Partner entity = dtoConvert.toEntity(partner);
             entity.setHeadquarter(head.get());
@@ -75,17 +80,20 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public boolean edit(Long document, PartnerDTO partner) throws NotFoundException {
+    public boolean edit(Long document, PartnerDTO partner) throws NotFoundException, DuplicateCreationException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(partner.getCodeHq());
         Optional<Partner> existing = partnerRepository.findByDocument(partner.getData().getDocumentNumber());
         Optional<AnnualFee> annualFee = annualFeeRepository.findByName(partner.getFee());
+        Optional<Person> person = personRepository.findByEmail(partner.getData().getEmail());
         if (existing.isEmpty()){
             throw new NotFoundException("code", "Document invalid, don't partner exist", HttpStatus.NOT_FOUND);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (annualFee.isEmpty()) {
             throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
-        }else {
+        } else if (person.isPresent()) {
+            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else {
             Partner entity = dtoConvert.toEntity(partner);
             entity.setHeadquarter(head.get());
             entity.setFee(annualFee.get());
