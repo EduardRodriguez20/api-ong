@@ -6,6 +6,7 @@ import java.util.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +22,7 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Code shp can't be null")
-    @Column(name = "code_shp", unique = true, nullable = false)
+    @Column(name = "code_shp", unique = true)
     private String codeShp;
 
     @NotEmpty(message = "Departure date can't be null")
@@ -30,7 +30,7 @@ public class Shipment {
     @Column(name = "departure_date", nullable = false)
     private LocalDateTime departureDate;
 
-    @NotEmpty(message = "Id shelter can't be null")
+    @NotNull(message = "Id shelter can't be null")
     @ManyToOne
     @JoinColumn(name = "id_shelter", nullable = false)
     private Shelter shelter;

@@ -1,7 +1,7 @@
 package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +19,7 @@ public class Director extends Person{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Headquarter can't be empty")
+    @NotNull(message = "Headquarter can't be null")
     @ManyToOne
     @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;

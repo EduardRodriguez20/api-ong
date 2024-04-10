@@ -1,6 +1,7 @@
 package com.edanrh.apiong.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,12 +30,14 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public UserDTO save(UserDTO user) throws DuplicateCreationException, BussinesRuleException {
-        Optional<UserEntity> existing = repositoryUser.deleteByEmail(user.getUsername());
+        Optional<UserEntity> existing = repositoryUser.findByEmail(user.getUsername());
         if (existing.isPresent()) {
             throw new DuplicateCreationException("code", "User already exists", HttpStatus.CONFLICT);
         }else{
             if (user.getRoleNames().contains("ROLE_DIRECTOR")){
                 throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
+            }else if (!user.getRoleNames().contains("ROLE_ASSISTANT") && !user.getRoleNames().contains("ROLE_ADMIN")){
+                throw new BussinesRuleException("code", "Incorrect roles, verify", HttpStatus.CONFLICT);
             }else {
                 UserEntity entity = dtoConvert.toEntity(user);
                 for (String rol : user.getRoleNames()){
@@ -47,7 +50,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO findByEmail(String email) throws NotFoundException {
-        Optional<UserEntity> existing = repositoryUser.deleteByEmail(email);
+        Optional<UserEntity> existing = repositoryUser.findByEmail(email);
         if (existing.isPresent()) {
             return dtoConvert.toDTO(existing.get());
         }else{
@@ -72,7 +75,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public boolean edit(String email, UserDTO user) throws NotFoundException, BussinesRuleException {
-        Optional<UserEntity> existing = repositoryUser.deleteByEmail(email);
+        Optional<UserEntity> existing = repositoryUser.findByEmail(email);
         if (existing.isEmpty()){
             throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
         }else{

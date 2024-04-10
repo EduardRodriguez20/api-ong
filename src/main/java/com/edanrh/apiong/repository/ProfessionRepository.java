@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface ProfessionRepository extends CrudRepository<Profession, Long>{
     Optional<Profession> findByCodePr(String codePr);
+
+    Optional<Profession> findByName(String name);
 }

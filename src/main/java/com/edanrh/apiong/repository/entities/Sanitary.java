@@ -2,6 +2,7 @@ package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,17 +20,17 @@ public class Sanitary extends Person{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Profession can't be null")
+    @NotNull(message = "Profession can't be null")
     @ManyToOne
     @JoinColumn(name = "id_profession", nullable = false)
     private Profession profession;
 
-    @NotEmpty(message = "Headquarter can't be null")
+    @NotNull(message = "Headquarter can't be null")
     @ManyToOne
     @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
-    @NotEmpty(message = "Available can't be null")
+    @NotNull(message = "Available can't be null")
     @Column(name = "is_available")
     private Boolean isAvailable;
 
@@ -37,5 +38,9 @@ public class Sanitary extends Person{
 
     public void addParticipation(){
         this.participation++;
+    }
+
+    public void available(){
+        this.isAvailable = true;
     }
 }

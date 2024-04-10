@@ -2,6 +2,7 @@ package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,10 @@ public class Profession {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @NotEmpty(message = "Code Shelter can't be empty")
-    @Column(name = "code_sh", unique = true, nullable = false)
+    @Column(name = "code_pr", unique = true)
     private String codePr;
     
-    public void setCodeSh(){
+    public void generateCodeSh(){
         this.codePr = "PR-" + this.id;
     }
 }

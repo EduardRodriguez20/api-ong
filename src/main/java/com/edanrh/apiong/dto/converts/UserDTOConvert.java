@@ -23,7 +23,9 @@ public class UserDTOConvert {
     }
 
     public UserEntity toEntity(UserDTO userDTO) {
-        return modelMapper.map(userDTO, UserEntity.class);
+        UserEntity user = modelMapper.map(userDTO, UserEntity.class);
+        user.setEmail(userDTO.getUsername());
+        return user;
     }
 
 }

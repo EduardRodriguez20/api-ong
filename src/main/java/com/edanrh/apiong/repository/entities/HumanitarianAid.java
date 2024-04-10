@@ -2,6 +2,7 @@ package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class HumanitarianAid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Profession can't be null")
+    @NotNull(message = "Profession can't be null")
     @ManyToOne
     @JoinColumn(name = "id_profession", nullable = false)
     private Profession profession;
@@ -29,12 +30,12 @@ public class HumanitarianAid {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @NotEmpty(message = "Headquarter can't be null")
+    @NotNull(message = "Headquarter can't be null")
     @ManyToOne
     @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
-    @NotEmpty(message = "Shipment can't be null")
+    @NotNull(message = "Shipment can't be null")
     @ManyToOne
     @JoinColumn(name = "id_shipment", nullable = false)
     private Shipment shipment;

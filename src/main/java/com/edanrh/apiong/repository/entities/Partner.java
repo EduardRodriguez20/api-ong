@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +22,7 @@ public class Partner extends Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "The headquarter can't be empty")
+    @NotNull(message = "The headquarter can't be empty")
     @ManyToOne
     @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
@@ -30,7 +31,7 @@ public class Partner extends Person {
     @Column(name = "account", nullable = false)
     private Long bankAccount;
 
-    @NotEmpty(message = "The id fee can't be null")
+    @NotNull(message = "The id fee can't be null")
     @ManyToOne
     @JoinColumn(name = "id_fee", nullable = false)
     private AnnualFee fee;

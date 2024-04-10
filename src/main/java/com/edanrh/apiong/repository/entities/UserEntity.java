@@ -1,6 +1,7 @@
 package com.edanrh.apiong.repository.entities;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -27,7 +28,7 @@ public class UserEntity {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
-    private List<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
 
     public UserEntity (String email, String password){
         this.email = email;

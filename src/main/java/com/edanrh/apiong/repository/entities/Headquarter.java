@@ -2,6 +2,7 @@ package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class Headquarter {
     private long id;
 
     @NotEmpty(message = "Code Headquarter can't be empty")
-    @Column(name = "code_hq",unique = true, nullable = false)
+    @Column(name = "code_hq", unique = true)
     private String codeHq;
 
     @NotEmpty(message = "Name can't be empty")
@@ -29,7 +30,7 @@ public class Headquarter {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @NotEmpty(message = "City's id can't be empty")
+    @NotNull(message = "City can't be null")
     @OneToOne
     @JoinColumn(name = "id_city", unique = true, nullable = false)
     private City city;

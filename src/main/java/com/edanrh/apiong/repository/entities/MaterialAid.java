@@ -2,6 +2,7 @@ package com.edanrh.apiong.repository.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,12 +25,12 @@ public class MaterialAid {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialAid")
     private Set<Material> material = new HashSet<>();
 
-    @NotEmpty(message = "Headquarter can't be empty")
+    @NotNull(message = "Headquarter can't be empty")
     @ManyToOne
     @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
-    @NotEmpty(message = "Shipment can't be empty")
+    @NotNull(message = "Shipment can't be empty")
     @ManyToOne
     @JoinColumn(name = "id_shipment", nullable = false)
     private Shipment shipment;

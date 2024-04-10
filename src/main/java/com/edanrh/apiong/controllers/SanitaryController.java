@@ -39,6 +39,20 @@ public class SanitaryController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/available/{document}")
+    public ResponseEntity<?> available(@RequestParam Long document) throws NotFoundException {
+        Map<String,Object> response=new HashMap<>();
+        try{
+            sanitaryService.isAvailable(document);
+            response.put("message", "Sanitary set is available successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (DataAccessException e){
+            response.put("message","Error saving to database");
+            response.put("error",e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> save(@Valid @RequestBody SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException {
         Map<String,Object> response=new HashMap<>();

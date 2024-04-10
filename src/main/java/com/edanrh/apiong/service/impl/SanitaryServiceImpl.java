@@ -58,6 +58,18 @@ public class SanitaryServiceImpl implements SanitaryService{
     }
 
     @Override
+    public boolean isAvailable(Long document) throws NotFoundException {
+        Optional<Sanitary> result = sanitaryRepository.findByDocument(document);
+        if (result.isEmpty()) {
+            throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
+        } else {
+            result.get().available();
+            sanitaryRepository.save(result.get());
+            return true;
+        }
+    }
+
+    @Override
     public SanitaryDTO save(SanitaryDTO sanitaryDTO) throws DuplicateCreationException, NotFoundException {
         Optional<Sanitary> existing = sanitaryRepository.findByDocument(sanitaryDTO.getData().getDocumentNumber());
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(sanitaryDTO.getCodeHq());

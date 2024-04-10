@@ -35,17 +35,16 @@ public class SecurityConfig{
         http.authorizeHttpRequests(auth -> auth
                     .requestMatchers("/partner/**", "/sanitary/**", "/administrative/**", "/shipment/**").hasAnyRole("DIRECTOR", "ADMIN")
                     .requestMatchers("/reports/**").hasAnyRole("ASSISTANT", "ADMIN")
-                    .requestMatchers("/annualFee/**", "/city/**", "/director/**", "/headquarter/**", "/shelter/**", "/user/**").hasRole("ADMIN")
-                    //.requestMatchers("/authenticate").permitAll()
+                    .requestMatchers("/annualFee/**", "/city/**", "/director/**", "/headquarter/**", "/shelter/**", "/user/**", "/profession/**").hasRole("ADMIN")
+                    .requestMatchers("/authenticate").permitAll()
                     .requestMatchers(SWAGGER_WHITELIST).permitAll()
                     .anyRequest().authenticated())
                 .addFilterAfter(jwtValidationFilter, UsernamePasswordAuthenticationFilter.class);
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        http.csrf(csrf -> csrf.disable());
-//        http.csrf(csrf -> csrf
-//                        .csrfTokenRequestHandler(requestHandler)
-//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-//                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
+        http.csrf(csrf -> csrf
+                        .csrfTokenRequestHandler(requestHandler)
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
         return http.build();
     }
 
