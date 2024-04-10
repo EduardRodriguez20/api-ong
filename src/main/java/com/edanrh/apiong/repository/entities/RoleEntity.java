@@ -1,7 +1,5 @@
 package com.edanrh.apiong.repository.entities;
 
-import java.math.BigInteger;
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

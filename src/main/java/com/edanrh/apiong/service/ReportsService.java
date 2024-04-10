@@ -19,7 +19,6 @@ public class ReportsService {
     private PartnerService partnerService;
     private HeadquarterService headquarterService;
     private DirectorRepository directorRepository;
-    private DirectorService directorService;
     private AdministrativeService administrativeService;
     private SanitaryService sanitaryService;
     private MaterialAidService materialAidService;

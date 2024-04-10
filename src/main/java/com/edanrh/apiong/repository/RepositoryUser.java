@@ -1,6 +1,5 @@
 package com.edanrh.apiong.repository;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;

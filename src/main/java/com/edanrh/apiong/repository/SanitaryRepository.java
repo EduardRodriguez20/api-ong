@@ -5,7 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.edanrh.apiong.repository.entities.Sanitary;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface SanitaryRepository extends CrudRepository<Sanitary, Long>{

@@ -1,7 +1,6 @@
 package com.edanrh.apiong.controllers;
 
 import com.edanrh.apiong.exceptions.ContentNullException;
-import com.edanrh.apiong.service.PartnerService;
 import com.edanrh.apiong.service.ReportsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

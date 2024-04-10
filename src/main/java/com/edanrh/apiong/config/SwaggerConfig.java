@@ -32,6 +32,6 @@ public class SwaggerConfig {
                             .type(SecurityScheme.Type.HTTP)
                             .scheme("bearer")
                             .bearerFormat("JWT")))
-               .externalDocs(new ExternalDocumentation().url("https://github.com/edanrh/Api-ong"));
+               .externalDocs(new ExternalDocumentation().url("https://github.com/EduardRodriguez20/api-ong"));
     }
 }
