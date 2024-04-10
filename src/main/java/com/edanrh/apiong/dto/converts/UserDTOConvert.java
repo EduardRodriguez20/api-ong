@@ -15,10 +15,11 @@ public class UserDTOConvert {
 
     public UserDTO toDTO(UserEntity user) {
         UserDTO dto = modelMapper.map(user, UserDTO.class);
+        dto.setUsername(user.getEmail());
         for (RoleEntity roles : user.getRoles()){
-            dto.getRoles().add(roles.getName());
+            dto.getRoleNames().add(roles.getName());
         }
-        return modelMapper.map(user, UserDTO.class);
+        return dto;
     }
 
     public UserEntity toEntity(UserDTO userDTO) {

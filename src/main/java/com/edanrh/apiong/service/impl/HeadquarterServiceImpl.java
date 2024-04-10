@@ -95,12 +95,12 @@ public class HeadquarterServiceImpl implements HeadquarterService {
 
     @Override
     public boolean deleteByCodeHq(String codeHq) throws NotFoundException, ReferencedEntityException {
-        Optional<Administrative> admin = administrativeRepository.findByCodeHq(codeHq);
+        Optional<Administrative> admin = administrativeRepository.findFirstByCodeHq(codeHq);
         Optional<Director> director = directorRepository.findByCodeHq(codeHq);
-        Optional<HumanitarianAid> humanitarianAid = humanitarianAidRepository.findByCodeHq(codeHq);
-        Optional<MaterialAid> materialAid = materialAidRepository.findByCodeHq(codeHq);
-        Optional<Partner> partner = partnerRepository.findByCodeHq(codeHq);
-        Optional<Sanitary> sanitary = sanitaryRepository.findByCodeHq(codeHq);
+        Optional<HumanitarianAid> humanitarianAid = humanitarianAidRepository.findFirstByCodeHq(codeHq);
+        Optional<MaterialAid> materialAid = materialAidRepository.findFirstByCodeHq(codeHq);
+        Optional<Partner> partner = partnerRepository.findFirstByCodeHq(codeHq);
+        Optional<Sanitary> sanitary = sanitaryRepository.findFirstByCodeHq(codeHq);
         Optional<Headquarter> entity = headquarterRepository.findByCodeHq(codeHq);
         if (entity.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);

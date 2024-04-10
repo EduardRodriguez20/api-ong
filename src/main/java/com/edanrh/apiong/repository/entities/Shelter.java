@@ -22,8 +22,8 @@ public class Shelter {
     private String name;
 
     @NotEmpty(message = "City can't be empty")
-    @Column(name = "id_city", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_city", nullable = false)
     private City city;
 
     @NotEmpty(message = "Address can't be empty")

@@ -8,6 +8,6 @@ import com.edanrh.apiong.repository.entities.MaterialAid;
 import java.util.Optional;
 
 public interface MaterialAidRepository extends CrudRepository<MaterialAid, Long>{
-    @Query("SELECT m FROM material_aid m WHERE m.headquarter.codeHq = ?1 LIMIT 1")
-    Optional<MaterialAid> findByCodeHq(String codeHq);
+    @Query("SELECT m FROM MaterialAid m WHERE m.headquarter.codeHq = ?1")
+    Optional<MaterialAid> findFirstByCodeHq(String codeHq);
 }

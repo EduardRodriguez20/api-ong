@@ -24,14 +24,13 @@ public class MaterialAid {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialAid")
     private Set<Material> material = new HashSet<>();
 
-    @NotEmpty(message = "Material can't be empty")
-    @Column(name = "id_headquarter", nullable = false)
+    @NotEmpty(message = "Headquarter can't be empty")
     @ManyToOne
+    @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
     @NotEmpty(message = "Shipment can't be empty")
-    @Column(name = "id_shipment", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_shipment", nullable = false)
     private Shipment shipment;
-    
 }

@@ -20,12 +20,12 @@ public class Administrative extends Person{
     private long id;
 
     @NotEmpty(message = "The profession can't be empty")
-    @Column(name = "id_profession", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_profession", nullable = false)
     private Profession profession;
 
     @NotEmpty(message = "The headquarter can't be empty")
-    @Column(name = "id_headquarter", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 }

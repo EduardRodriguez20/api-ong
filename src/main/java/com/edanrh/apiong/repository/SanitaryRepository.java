@@ -9,13 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SanitaryRepository extends CrudRepository<Sanitary, Long>{
-    @Query("SELECT a FROM sanitaries a JOIN a.person p WHERE p.document = ?1")
+    @Query("SELECT s FROM Sanitary s WHERE s.documentNumber = ?1")
     Optional<Sanitary> findByDocument(Long document);
 
-    @Query("SELECT s FROM sanitaries s WHERE s.headquarter.codeHq = ?1 LIMIT 1")
-    Optional<Sanitary> findByCodeHq(String codeHq);
+    @Query("SELECT s FROM Sanitary s WHERE s.headquarter.codeHq = ?1")
+    Optional<Sanitary> findFirstByCodeHq(String codeHq);
 
-    @Query("SELECT s FROM sanitaries s WHERE s.profession.codePr = ?1 AND " +
-            "s.headquarter.codeHq = ?2 AND s.isAvailable")
-    List<Sanitary> findByCodePrAndCodeHq(String codePr, String codeHq);
 } 

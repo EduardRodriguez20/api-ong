@@ -94,7 +94,7 @@ public class ShelterServiceImpl implements ShelterService {
         if (existing.isEmpty()){
             throw new NotFoundException("code", "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
         }else {
-            Optional<Shipment> shipment = shipmentRepository.findByCodeSh(existing.get().getCodeSh());
+            Optional<Shipment> shipment = shipmentRepository.findFirstByCodeSh(existing.get().getCodeSh());
             if (shipment.isPresent()){
                 throw new ReferencedEntityException("code", "Shelter has shipments linked", HttpStatus.CONFLICT);
             } else {

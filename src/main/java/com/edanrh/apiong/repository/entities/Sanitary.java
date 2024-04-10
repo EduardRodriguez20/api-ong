@@ -20,13 +20,13 @@ public class Sanitary extends Person{
     private long id;
 
     @NotEmpty(message = "Profession can't be null")
-    @Column(name = "id_profession", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_profession", nullable = false)
     private Profession profession;
 
     @NotEmpty(message = "Headquarter can't be null")
-    @Column(name = "id_headquarter", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
     @NotEmpty(message = "Available can't be null")

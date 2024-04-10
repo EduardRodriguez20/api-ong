@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface ShipmentRepository extends CrudRepository<Shipment, Long>{
     Optional<Shipment> findByCodeShp (String codeShp);
 
-    @Query("SELECT s FROM shipment s WHERE s.shelter.codeSh = ?1 LIMIT 1")
-    Optional<Shipment> findByCodeSh (String codeSh);
+    @Query("SELECT s FROM Shipment s WHERE s.shelter.codeSh = ?1")
+    Optional<Shipment> findFirstByCodeSh (String codeSh);
 }

@@ -21,8 +21,8 @@ public class HumanitarianAid {
     private long id;
 
     @NotEmpty(message = "Profession can't be null")
-    @Column(name = "id_profession", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_profession", nullable = false)
     private Profession profession;
 
     @NotEmpty(message = "Quantity can't be null")
@@ -30,13 +30,13 @@ public class HumanitarianAid {
     private int quantity;
 
     @NotEmpty(message = "Headquarter can't be null")
-    @Column(name = "id_headquarter", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
     @NotEmpty(message = "Shipment can't be null")
-    @Column(name = "id_shipment", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_shipment", nullable = false)
     private Shipment shipment;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -20,7 +20,7 @@ public class Director extends Person{
     private long id;
 
     @NotEmpty(message = "Headquarter can't be empty")
-    @Column(name = "id_headquarter", unique = true, nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 }

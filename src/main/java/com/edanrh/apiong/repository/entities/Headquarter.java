@@ -30,8 +30,8 @@ public class Headquarter {
     private String address;
 
     @NotEmpty(message = "City's id can't be empty")
-    @Column(name = "id_city", unique = true, nullable = false)
     @OneToOne
+    @JoinColumn(name = "id_city", unique = true, nullable = false)
     private City city;
 
     public void generateCodeHq(){

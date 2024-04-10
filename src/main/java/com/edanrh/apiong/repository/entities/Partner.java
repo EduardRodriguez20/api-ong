@@ -22,8 +22,8 @@ public class Partner extends Person {
     private long id;
 
     @NotEmpty(message = "The headquarter can't be empty")
-    @Column(name = "id_headquarter", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
     @NotEmpty(message = "The account can't be null")
@@ -31,8 +31,8 @@ public class Partner extends Person {
     private Long bankAccount;
 
     @NotEmpty(message = "The id fee can't be null")
-    @Column(name = "id_fee", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_fee", nullable = false)
     private AnnualFee fee;
 
     @NotEmpty(message = "The payment date can't be null")

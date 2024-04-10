@@ -33,11 +33,11 @@ public class UserServiceImpl implements UserService{
         if (existing.isPresent()) {
             throw new DuplicateCreationException("code", "User already exists", HttpStatus.CONFLICT);
         }else{
-            if (user.getRoles().contains("ROLE_DIRECTOR")){
+            if (user.getRoleNames().contains("ROLE_DIRECTOR")){
                 throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
             }else {
                 UserEntity entity = dtoConvert.toEntity(user);
-                for (String rol : user.getRoles()){
+                for (String rol : user.getRoleNames()){
                     entity.getRoles().add(new RoleEntity(rol));
                 }
                 return dtoConvert.toDTO(repositoryUser.save(entity));
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService{
         if (existing.isEmpty()){
             throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
         }else{
-            if (user.getRoles().contains("ROLE_DIRECTOR")){
+            if (user.getRoleNames().contains("ROLE_DIRECTOR")){
                 throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
             }else {
                 UserEntity entity = existing.get();

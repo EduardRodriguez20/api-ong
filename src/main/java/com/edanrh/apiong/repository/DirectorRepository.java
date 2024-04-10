@@ -8,10 +8,9 @@ import com.edanrh.apiong.repository.entities.Director;
 import java.util.Optional;
 
 public interface DirectorRepository extends CrudRepository<Director, Long>{
-    @Query("SELECT d FROM directors d JOIN d.person p WHERE p.document = ?1")
+    @Query("SELECT d FROM Director d WHERE d.documentNumber = ?1")
     Optional<Director> findByDocument(Long document);
 
-    @Query("SELECT d FROM directors d WHERE d.headquarter.codeHq = ?1")
+    @Query("SELECT d FROM Director d WHERE d.headquarter.codeHq = ?1")
     Optional<Director> findByCodeHq(String codeHq);
-
 }

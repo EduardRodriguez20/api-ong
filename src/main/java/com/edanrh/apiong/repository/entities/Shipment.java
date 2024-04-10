@@ -31,8 +31,8 @@ public class Shipment {
     private LocalDateTime departureDate;
 
     @NotEmpty(message = "Id shelter can't be null")
-    @Column(name = "id_shelter", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "id_shelter", nullable = false)
     private Shelter shelter;
 
     public void generateCodeShp(){
