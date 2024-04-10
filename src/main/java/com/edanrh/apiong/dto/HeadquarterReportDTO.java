@@ -3,7 +3,7 @@ package com.edanrh.apiong.dto;
 import lombok.Data;
 
 @Data
-public class HeadquarterDTO {
+public class HeadquarterReportDTO {
 
     private String codeHq;
     private String name;
