@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="631e022f-451f-4c59-9780-a3cc1a1130db" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/controllers/ReportsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/HeadquarterReportDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/converts/HeadReportDTOConvert.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/service/ReportsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/HeadquarterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/edanrh/apiong/dto/HeadquarterDTO.java" afterDir="false" />
-    </list>
+    <list default="true" id="631e022f-451f-4c59-9780-a3cc1a1130db" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
