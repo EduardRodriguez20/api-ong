@@ -17,7 +17,7 @@ public class MaterialAidDTOConvert {
         MaterialAidDTO dto = new MaterialAidDTO();
         dto.setCodeHq(materialAid.getHeadquarter().getCodeHq());
         dto.setCodeShp(materialAid.getShipment().getCodeShp());
-        for (Material material : materialAid.getMaterial()){
+        for (Material material : materialAid.getMaterials()){
             dto.getMaterial().add(materialDTOConvert.toDTO(material));
         }
         return dto;

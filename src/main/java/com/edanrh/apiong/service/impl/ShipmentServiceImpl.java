@@ -53,6 +53,7 @@ public class ShipmentServiceImpl implements ShipmentService {
             List<ShipmentDTO> resultDTOs = new ArrayList<>();
             for (Shipment shipment : result) {
                 ShipmentDTO dto = dtoConvert.toDTO(shipment);
+                dto.setCodeSh(shipment.getShelter().getCodeSh());
                 List<HumanitarianAid> humanitarianAids = humanitarianAidRepository.findByCodeShp(dto.getCodeShp());
                 List<MaterialAid> materialAids = materialAidRepository.findByCodeShp(dto.getCodeShp());
                 if (!humanitarianAids.isEmpty()){
@@ -87,6 +88,7 @@ public class ShipmentServiceImpl implements ShipmentService {
             shipment.setId(saved.getId());
             shipment.generateCodeShp();
             ShipmentDTO dto = dtoConvert.toDTO(shipment);
+            dto.setCodeSh(shipment.getShelter().getCodeSh());
             if (!shipmentDTO.getMaterialAid().isEmpty()){
                 for (MaterialAidDTO materialDTO : shipmentDTO.getMaterialAid()){
                     dto.getMaterialAid().add(materialAidService.save(materialDTO, shipment));

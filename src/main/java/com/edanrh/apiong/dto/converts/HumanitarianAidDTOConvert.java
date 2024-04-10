@@ -16,10 +16,11 @@ public class HumanitarianAidDTOConvert {
     private ModelMapper mapper;
 
     public HumanitarianAidDTO toDTO(HumanitarianAid humanitarianAid) {
-        HumanitarianAidDTO dto = mapper.map(humanitarianAid, HumanitarianAidDTO.class);
+        HumanitarianAidDTO dto = new HumanitarianAidDTO();
         dto.setCodeShp(humanitarianAid.getShipment().getCodeShp());
         dto.setCodeHq(humanitarianAid.getHeadquarter().getCodeHq());
         dto.setCodePr(humanitarianAid.getProfession().getCodePr());
+        dto.setQuantity(humanitarianAid.getQuantity());
         for (DocSanitarySent doc : humanitarianAid.getDocumentsSanitaries()){
             dto.getDocuments().add(doc.getDocumentSanitary());
         }

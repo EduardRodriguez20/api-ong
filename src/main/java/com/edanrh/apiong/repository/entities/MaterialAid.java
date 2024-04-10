@@ -21,9 +21,12 @@ public class MaterialAid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Material can't be empty")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialAid")
-    private Set<Material> material = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "material_aid_material",
+            joinColumns = @JoinColumn(name = "material_aid_id"),
+            inverseJoinColumns = @JoinColumn(name = "material_id")
+    )
+    private Set<Material> materials = new HashSet<>();
 
     @NotNull(message = "Headquarter can't be empty")
     @ManyToOne

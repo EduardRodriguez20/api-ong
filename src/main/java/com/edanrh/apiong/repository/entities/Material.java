@@ -32,8 +32,4 @@ public class Material {
     @NotEmpty(message = "Description can't be empty")
     @Column(name = "description", nullable = false)
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "material_aid_id")
-    private MaterialAid materialAid;
 }

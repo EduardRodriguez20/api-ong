@@ -39,7 +39,7 @@ public class MaterialAidServiceImpl implements MaterialAidService {
             List<MaterialAidDTO> resultDTO = new ArrayList<>();
             for (MaterialAid materialAid : result) {
                 MaterialAidDTO dto = dtoConvert.toDTO(materialAid);
-                for (Material material : materialAid.getMaterial()){
+                for (Material material : materialAid.getMaterials()){
                     dto.getMaterial().add(materialDTOConvert.toDTO(material));
                 }
                 resultDTO.add(dtoConvert.toDTO(materialAid));
@@ -59,8 +59,7 @@ public class MaterialAidServiceImpl implements MaterialAidService {
             entity.setShipment(shipment);
             for (MaterialDTO dto : materialAidDTO.getMaterial()){
                 Material material = materialDTOConvert.toEntity(dto);
-                material.setMaterialAid(entity);
-                entity.getMaterial().add(material);
+                entity.getMaterials().add(material);
             }
             return dtoConvert.toDTO(materialAidRepository.save(entity));
         }
