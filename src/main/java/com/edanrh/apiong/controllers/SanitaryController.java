@@ -1,5 +1,6 @@
 package com.edanrh.apiong.controllers;
 
+import com.edanrh.apiong.dto.CodePrAndCodeHq;
 import com.edanrh.apiong.dto.SanitaryDTO;
 import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
@@ -37,6 +38,14 @@ public class SanitaryController {
         Map<String,Object> response=new HashMap<>();
         SanitaryDTO result = sanitaryService.findByDocument(document);
         response.put("Sanitary", result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/codePrCodeHq")
+    public ResponseEntity<?> findByCodePrAndCodeHq(CodePrAndCodeHq dto) throws NotFoundException {
+        Map<String,Object> response=new HashMap<>();
+        List<SanitaryDTO> result = sanitaryService.findByCodePrAndCodeHq(dto.getCodePr(),dto.getCodeHq());
+        response.put("Sanitaries", result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

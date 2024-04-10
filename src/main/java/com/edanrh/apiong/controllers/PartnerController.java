@@ -40,6 +40,14 @@ public class PartnerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/annualFee/{annualFee}")
+    public ResponseEntity<?> findByAnnualFee(@RequestParam String annualFee) throws NotFoundException, ContentNullException {
+        Map<String,Object> response=new HashMap<>();
+        List<PartnerDTO> result = partnerService.findByAnnualFee(annualFee);
+        response.put("Partners", result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> save(@Valid @RequestBody PartnerDTO partnerDTO) throws DuplicateCreationException, NotFoundException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();

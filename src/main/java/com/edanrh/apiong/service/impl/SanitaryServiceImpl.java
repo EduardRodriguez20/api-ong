@@ -61,6 +61,20 @@ public class SanitaryServiceImpl implements SanitaryService{
     }
 
     @Override
+    public List<SanitaryDTO> findByCodePrAndCodeHq(String codePr, String codeHq) throws NotFoundException {
+        List<Sanitary> result = sanitaryRepository.findByCodePrAndCodeHq(codePr, codeHq);
+        if (result.isEmpty()) {
+            throw new NotFoundException(ErrorCode.SANITARY_CONTENT_NOT_FOUND, "Document not found", HttpStatus.NOT_FOUND);
+        } else {
+            List<SanitaryDTO> resultDTO = new ArrayList<>();
+            for (Sanitary sanitary : result) {
+                resultDTO.add(dtoConvert.toDTO(sanitary));
+            }
+            return resultDTO;
+        }
+    }
+
+    @Override
     public boolean isAvailable(Long document) throws NotFoundException {
         Optional<Sanitary> result = sanitaryRepository.findByDocument(document);
         if (result.isEmpty()) {

@@ -11,6 +11,7 @@ import java.util.List;
 public interface PartnerService {
     List<PartnerDTO> findAll() throws ContentNullException;
     PartnerDTO findByDocument (Long document) throws NotFoundException;
+    List<PartnerDTO> findByAnnualFee(String annualFee) throws ContentNullException;
     PartnerDTO save (PartnerDTO partner) throws DuplicateCreationException, NotFoundException, BussinesRuleException;
     boolean edit (Long document, PartnerDTO partner) throws NotFoundException, DuplicateCreationException, BussinesRuleException;
     boolean delete (Long document) throws NotFoundException;

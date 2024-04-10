@@ -60,6 +60,23 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
+    public List<PartnerDTO> findByAnnualFee(String annualFee) throws ContentNullException {
+        List<Partner> result = partnerRepository.findByFeeName(annualFee);
+        if (result.isEmpty()){
+            throw new ContentNullException(ErrorCode.PARTNER_CONTENT_NOT_FOUND, "There aren't partner data", HttpStatus.NO_CONTENT);
+        } else {
+            List<PartnerDTO> resultDTO = new ArrayList<>();
+            for (Partner partner : result) {
+                PartnerDTO dto = dtoConvert.toDTO(partner);
+                dto.setCodeHq(partner.getHeadquarter().getCodeHq());
+                dto.setFee(partner.getFee().getName());
+                resultDTO.add(dto);
+            }
+            return resultDTO;
+        }
+    }
+
+    @Override
     public PartnerDTO save(PartnerDTO partner) throws DuplicateCreationException, NotFoundException, BussinesRuleException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(partner.getCodeHq());
         Optional<Person> existing = personRepository.findByDocumentNumber(partner.getData().getDocumentNumber());
