@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.repository.PersonRepository;
@@ -39,7 +40,7 @@ public class SanitaryServiceImpl implements SanitaryService{
     public List<SanitaryDTO> findAll() throws ContentNullException {
         List<Sanitary> result = (List<Sanitary>) sanitaryRepository.findAll();
         if (result.isEmpty()) {
-            throw new ContentNullException("code", "There isn't sanitary data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.SANITARY_CONTENT_NOT_FOUND, "There isn't sanitary data", HttpStatus.NO_CONTENT);
         }else{
             List<SanitaryDTO> resultDTO = new ArrayList<>();
             for (Sanitary sanitary : result) {
@@ -53,7 +54,7 @@ public class SanitaryServiceImpl implements SanitaryService{
     public SanitaryDTO findByDocument(Long document) throws NotFoundException {
         Optional<Sanitary> result = sanitaryRepository.findByDocument(document);
         if (result.isEmpty()) {
-            throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SANITARY_DOCUMENT_NOT_FOUND, "Document not found", HttpStatus.NOT_FOUND);
         }else {
             return dtoConvert.toDTO(result.get());
         }
@@ -63,7 +64,7 @@ public class SanitaryServiceImpl implements SanitaryService{
     public boolean isAvailable(Long document) throws NotFoundException {
         Optional<Sanitary> result = sanitaryRepository.findByDocument(document);
         if (result.isEmpty()) {
-            throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SANITARY_DOCUMENT_NOT_FOUND, "Document not found", HttpStatus.NOT_FOUND);
         } else {
             result.get().available();
             sanitaryRepository.save(result.get());
@@ -78,15 +79,15 @@ public class SanitaryServiceImpl implements SanitaryService{
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
         Optional<Person> email = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.PERSON_DUPLICATE_CREATION, "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (head.isEmpty()) {
-            throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()) {
-            throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PROFESSION_CODE_NOT_FOUND, "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (email.isPresent()) {
-            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.EMAIL_AVAILABLE, "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(sanitaryDTO.getData().getEmail())) {
-            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
+            throw new BussinesRuleException(ErrorCode.EMAIL_VALIDATION, "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Sanitary sanitary = dtoConvert.toEntity(sanitaryDTO);
             sanitary.setHeadquarter(head.get());
@@ -105,17 +106,17 @@ public class SanitaryServiceImpl implements SanitaryService{
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
         Optional<Person> email = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
         if (existing.isEmpty()){
-            throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SANITARY_DOCUMENT_NOT_FOUND, "Document not found", HttpStatus.NOT_FOUND);
         } else if (head.isEmpty()) {
-            throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()) {
-            throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PROFESSION_CODE_NOT_FOUND, "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (email.isPresent()) {
-            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.EMAIL_AVAILABLE, "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (personExisting.isPresent()){
-            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.PERSON_DUPLICATE_CREATION, "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(sanitaryDTO.getData().getEmail())) {
-            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
+            throw new BussinesRuleException(ErrorCode.EMAIL_VALIDATION, "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Sanitary sanitary = dtoConvert.toEntity(sanitaryDTO);
             sanitary.setHeadquarter(head.get());
@@ -129,7 +130,7 @@ public class SanitaryServiceImpl implements SanitaryService{
     public boolean delete(Long document) throws NotFoundException {
         Optional<Sanitary> result = sanitaryRepository.findByDocument(document);
         if (result.isEmpty()) {
-            throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SANITARY_DOCUMENT_NOT_FOUND, "Document not found", HttpStatus.NOT_FOUND);
         }else {
             sanitaryRepository.delete(result.get());
             return true;

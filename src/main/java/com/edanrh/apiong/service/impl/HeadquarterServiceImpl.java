@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.HeadquarterDTO;
 import com.edanrh.apiong.dto.converts.HeadquarterDTOConvert;
 import com.edanrh.apiong.exceptions.ContentNullException;
@@ -35,7 +36,7 @@ public class HeadquarterServiceImpl implements HeadquarterService {
     public List<HeadquarterDTO> findAll() throws ContentNullException {
         List<Headquarter> result = (List<Headquarter>) headquarterRepository.findAll();
         if (result.isEmpty()) {
-            throw new ContentNullException("code", "There isn't headquarters data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.HEADQUARTER_CONTENT_NOT_FOUND, "There isn't headquarters data", HttpStatus.NO_CONTENT);
         }else {
             List<HeadquarterDTO> resultDTO = new ArrayList<>();
             for (Headquarter headquarter : result) {
@@ -49,7 +50,7 @@ public class HeadquarterServiceImpl implements HeadquarterService {
     public HeadquarterDTO findByCodeHq(String codeHq) throws NotFoundException {
         Optional<Headquarter> headquarter = headquarterRepository.findByCodeHq(codeHq);
         if (headquarter.isEmpty()){
-            throw new NotFoundException("code", "Headquarter not found, codeHq invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "Headquarter not found, codeHq invalid", HttpStatus.NOT_FOUND);
         }else{
             return dtoConvert.toDTO(headquarter.get());
         }
@@ -59,10 +60,10 @@ public class HeadquarterServiceImpl implements HeadquarterService {
     public HeadquarterDTO save(HeadquarterDTO headquarterDTO) throws NotFoundException, DuplicateCreationException {
         Optional<City> city = cityRepository.findByName(headquarterDTO.getCity());
         if (city.isEmpty()){
-            throw new NotFoundException("code", "City not found, city invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.CITY_NAME_NOT_FOUND, "City not found, city invalid", HttpStatus.NOT_FOUND);
         }else {
             if (headquarterRepository.existsByCityName(headquarterDTO.getCity())){
-                throw new DuplicateCreationException("code", "Headquarter already exists in that city", HttpStatus.CONFLICT);
+                throw new DuplicateCreationException(ErrorCode.HEADQUARTER_DUPLICATE_CREATION, "Headquarter already exists in that city", HttpStatus.CONFLICT);
             }else {
                 Headquarter entity = dtoConvert.toEntity(headquarterDTO);
                 entity.setCity(city.get());
@@ -79,9 +80,9 @@ public class HeadquarterServiceImpl implements HeadquarterService {
         Optional<Headquarter> entity = headquarterRepository.findByCodeHq(codeHq);
         Optional<City> city = cityRepository.findByName(headquarterDTO.getCity());
         if (entity.isEmpty()){
-            throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (city.isEmpty()){
-            throw new NotFoundException("code", "City invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.CITY_NAME_NOT_FOUND, "City invalid, don't exist", HttpStatus.NOT_FOUND);
         } else {
             Headquarter headquarter = dtoConvert.toEntity(headquarterDTO);
             headquarter.setCity(city.get());
@@ -103,19 +104,19 @@ public class HeadquarterServiceImpl implements HeadquarterService {
         Optional<Sanitary> sanitary = sanitaryRepository.findFirstByCodeHq(codeHq);
         Optional<Headquarter> entity = headquarterRepository.findByCodeHq(codeHq);
         if (entity.isEmpty()){
-            throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (admin.isPresent()) {
-            throw new ReferencedEntityException("code", "Headquarter has admins linked", HttpStatus.CONFLICT);
+            throw new ReferencedEntityException(ErrorCode.HEADQUARTER_REFERENCE_EXISTING, "Headquarter has admins linked", HttpStatus.CONFLICT);
         } else if (director.isPresent()) {
-            throw new ReferencedEntityException("code", "Headquarter has directors linked", HttpStatus.CONFLICT);
+            throw new ReferencedEntityException(ErrorCode.HEADQUARTER_REFERENCE_EXISTING, "Headquarter has directors linked", HttpStatus.CONFLICT);
         } else if (humanitarianAid.isPresent()) {
-            throw new ReferencedEntityException("code", "Headquarter has humanitarian aid linked", HttpStatus.CONFLICT);
+            throw new ReferencedEntityException(ErrorCode.HEADQUARTER_REFERENCE_EXISTING, "Headquarter has humanitarian aid linked", HttpStatus.CONFLICT);
         } else if (materialAid.isPresent()) {
-            throw new ReferencedEntityException("code", "Headquarter has material aid linked", HttpStatus.CONFLICT);
+            throw new ReferencedEntityException(ErrorCode.HEADQUARTER_REFERENCE_EXISTING, "Headquarter has material aid linked", HttpStatus.CONFLICT);
         } else if (partner.isPresent()) {
-            throw new ReferencedEntityException("code", "Headquarter has partners linked", HttpStatus.CONFLICT);
+            throw new ReferencedEntityException(ErrorCode.HEADQUARTER_REFERENCE_EXISTING, "Headquarter has partners linked", HttpStatus.CONFLICT);
         } else if (sanitary.isPresent()) {
-            throw new ReferencedEntityException("code", "Headquarter has sanitaries linked", HttpStatus.CONFLICT);
+            throw new ReferencedEntityException(ErrorCode.HEADQUARTER_REFERENCE_EXISTING, "Headquarter has sanitaries linked", HttpStatus.CONFLICT);
         } else {
             headquarterRepository.delete(entity.get());
             return true;

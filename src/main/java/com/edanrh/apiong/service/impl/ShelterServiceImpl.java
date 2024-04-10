@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.ShelterDTO;
 import com.edanrh.apiong.dto.converts.ShelterDTOConvert;
 import com.edanrh.apiong.exceptions.ContentNullException;
@@ -33,7 +34,7 @@ public class ShelterServiceImpl implements ShelterService {
     public List<ShelterDTO> findAll() throws ContentNullException {
         List<Shelter> shelters = (List<Shelter>) shelterRepository.findAll();
         if (shelters.isEmpty()){
-            throw new ContentNullException("code", "There aren't shelter data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.SHELTER_CONTENT_NOT_FOUND, "There aren't shelter data", HttpStatus.NO_CONTENT);
         }else {
             List<ShelterDTO> resultDTO = new ArrayList<>();
             for (Shelter shelter : shelters) {
@@ -47,7 +48,7 @@ public class ShelterServiceImpl implements ShelterService {
     public ShelterDTO findByCodeSh(String codeSh) throws NotFoundException {
         Optional<Shelter> shelter = shelterRepository.findByCodeSh(codeSh);
         if (shelter.isEmpty()){
-            throw new NotFoundException("code", "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SHELTER_CODE_NOT_FOUND, "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
         }else {
             return dtoConvert.toDTO(shelter.get());
         }
@@ -57,7 +58,7 @@ public class ShelterServiceImpl implements ShelterService {
     public ShelterDTO save(ShelterDTO shelterDTO) throws NotFoundException {
         Optional<City> city = cityRepository.findByName(shelterDTO.getCity());
         if (city.isEmpty()){
-            throw new NotFoundException("code", "City not found, city invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.CITY_NAME_NOT_FOUND, "City not found, city invalid", HttpStatus.NOT_FOUND);
         }else {
             Shelter shelter = dtoConvert.toEntity(shelterDTO);
             shelter.setCity(city.get());
@@ -74,9 +75,9 @@ public class ShelterServiceImpl implements ShelterService {
         Optional<Shelter> existing = shelterRepository.findByCodeSh(codeSh);
         Optional<City> city = cityRepository.findByName(shelterDTO.getCity());
         if (city.isEmpty()){
-            throw new NotFoundException("code", "City not found, city invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.CITY_NAME_NOT_FOUND, "City not found, city invalid", HttpStatus.NOT_FOUND);
         } else if (existing.isEmpty()) {
-            throw new NotFoundException("code", "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SHELTER_CODE_NOT_FOUND, "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
         } else {
             Shelter shelter = dtoConvert.toEntity(shelterDTO);
             shelter.setCity(city.get());
@@ -92,11 +93,11 @@ public class ShelterServiceImpl implements ShelterService {
     public boolean deleteByCodeSh(String codeSh) throws NotFoundException, ReferencedEntityException {
         Optional<Shelter> existing = shelterRepository.findByCodeSh(codeSh);
         if (existing.isEmpty()){
-            throw new NotFoundException("code", "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SHELTER_CODE_NOT_FOUND, "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
         }else {
             Optional<Shipment> shipment = shipmentRepository.findFirstByCodeSh(existing.get().getCodeSh());
             if (shipment.isPresent()){
-                throw new ReferencedEntityException("code", "Shelter has shipments linked", HttpStatus.CONFLICT);
+                throw new ReferencedEntityException(ErrorCode.SHELTER_REFERENCE_EXISTING, "Shelter has shipments linked", HttpStatus.CONFLICT);
             } else {
                 shelterRepository.delete(existing.get());
                 return true;

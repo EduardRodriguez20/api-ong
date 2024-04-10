@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.CityDTO;
 import com.edanrh.apiong.dto.converts.CityDTOConvert;
 import com.edanrh.apiong.exceptions.ContentNullException;
@@ -32,7 +33,7 @@ public class CityServiceImpl implements CityService {
     public List<CityDTO> findAll() throws ContentNullException {
         List<City> cities = (List<City>) cityRepository.findAll();
         if (cities.isEmpty()){
-            throw new ContentNullException("code", "There isn't cities", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.CITY_CONTENT_NOT_FOUND, "There isn't cities", HttpStatus.NO_CONTENT);
         }else {
             List<CityDTO> citiesDto = new ArrayList<>();
             for (City city : cities) {
@@ -46,7 +47,7 @@ public class CityServiceImpl implements CityService {
     public CityDTO save(CityDTO cityDTO) throws DuplicateCreationException {
         Optional<City> city = cityRepository.findByName(cityDTO.getName());
         if (city.isPresent()){
-            throw new DuplicateCreationException("code", "City already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.CITY_DUPLICATE_CREATION, "City already exists", HttpStatus.CONFLICT);
         }else {
             City saved = cityRepository.save(dtoConvert.toEntity(cityDTO));
             return dtoConvert.toDTO(saved);
@@ -62,7 +63,7 @@ public class CityServiceImpl implements CityService {
             cityRepository.save(city.get());
             return true;
         }else {
-            throw new NotFoundException("code", "city invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.CITY_NAME_NOT_FOUND, "city invalid, don't exist", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -71,15 +72,15 @@ public class CityServiceImpl implements CityService {
         Optional<City> city = cityRepository.findByName(name);
         if (city.isPresent()) {
             if (shelterRepository.existsByCityName(city.get().getName())){
-                throw new ReferencedEntityException("code", "City has shelters linked", HttpStatus.CONFLICT);
+                throw new ReferencedEntityException(ErrorCode.CITY_REFERENCED_EXIST, "City has shelters linked", HttpStatus.CONFLICT);
             }else if (headquarterRepository.existsByCityName(city.get().getName())){
-                throw new ReferencedEntityException("code", "City has headquarters linked", HttpStatus.CONFLICT);
+                throw new ReferencedEntityException(ErrorCode.CITY_REFERENCED_EXIST, "City has headquarters linked", HttpStatus.CONFLICT);
             }else {
                 cityRepository.delete(city.get());
                 return true;
             }
         }else {
-            throw new NotFoundException("code", "city invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.CITY_NAME_NOT_FOUND, "city invalid, don't exist", HttpStatus.NOT_FOUND);
         }
     }
 }

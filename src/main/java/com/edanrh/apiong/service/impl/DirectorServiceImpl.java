@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.DirectorDTO;
 import com.edanrh.apiong.dto.converts.DirectorDTOConvert;
@@ -35,7 +36,7 @@ public class DirectorServiceImpl implements DirectorService {
     public List<DirectorDTO> findAll() throws ContentNullException {
         List<Director> directors = (List<Director>) directorRepository.findAll();
         if(directors.isEmpty()){
-            throw new ContentNullException("code", "There isn't directors", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.DIRECTOR_CONTENT_NOT_FOUND, "There isn't directors", HttpStatus.NO_CONTENT);
         }else {
             List<DirectorDTO> resultDto = new ArrayList<>();
             for (Director director : directors) {
@@ -49,7 +50,7 @@ public class DirectorServiceImpl implements DirectorService {
     public DirectorDTO findByDocument(Long document) throws NotFoundException {
         Optional<Director> director = directorRepository.findByDocument(document);
         if (director.isEmpty()){
-            throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.DIRECTOR_DOCUMENT_NOT_FOUND, "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }else {
             return dtoConvert.toDTO(director.get());
         }
@@ -62,15 +63,15 @@ public class DirectorServiceImpl implements DirectorService {
         Optional<Person> email = personRepository.findByEmail(directorDTO.getData().getEmail());
         Optional<Person> existing = personRepository.findByDocumentNumber(directorDTO.getData().getDocumentNumber());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.PERSON_DUPLICATE_CREATION, "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (head.isEmpty()){
-            throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (headOccupied.isPresent()){
-            throw new DuplicateCreationException("code", "Headquarter has already a director", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.HEADQUARTER_OCCUPIED, "Headquarter has already a director", HttpStatus.CONFLICT);
         } else if (email.isPresent()) {
-            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.EMAIL_AVAILABLE, "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(directorDTO.getData().getEmail())) {
-            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
+            throw new BussinesRuleException(ErrorCode.EMAIL_VALIDATION, "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Director director = dtoConvert.toEntity(directorDTO);
             director.setHeadquarter(head.get());

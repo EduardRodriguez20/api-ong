@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.HumanitarianAidDTO;
 import com.edanrh.apiong.dto.MaterialAidDTO;
 import com.edanrh.apiong.dto.ShipmentDTO;
@@ -48,7 +49,7 @@ public class ShipmentServiceImpl implements ShipmentService {
     public List<ShipmentDTO> findAll() throws ContentNullException {
         List<Shipment> result = (List<Shipment>) shipmentRepository.findAll();
         if (result.isEmpty()){
-            throw new ContentNullException("code", "Headquarter not found, codeHq invalid", HttpStatus.NOT_FOUND);
+            throw new ContentNullException(ErrorCode.SHIPMENT_CONTENT_NOT_FOUND, "Headquarter not found, codeHq invalid", HttpStatus.NOT_FOUND);
         }else {
             List<ShipmentDTO> resultDTOs = new ArrayList<>();
             for (Shipment shipment : result) {
@@ -78,9 +79,9 @@ public class ShipmentServiceImpl implements ShipmentService {
         Optional<Shelter> shelter = shelterRepository.findByCodeSh(shipmentDTO.getCodeSh());
         LocalDateTime now = LocalDateTime.now();
         if (shelter.isEmpty()){
-            throw new NotFoundException("code", "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SHELTER_CODE_NOT_FOUND, "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
         } else if (shipmentDTO.getDepartureDate().isBefore(now)) {
-            throw new BussinesRuleException("code", "Departure date can't be before now", HttpStatus.BAD_REQUEST);
+            throw new BussinesRuleException(ErrorCode.DATE_VALIDATION, "Departure date can't be before now", HttpStatus.BAD_REQUEST);
         } else {
             Shipment shipment = dtoConvert.toEntity(shipmentDTO);
             shipment.setShelter(shelter.get());
@@ -108,11 +109,11 @@ public class ShipmentServiceImpl implements ShipmentService {
     public boolean edit(String codeShp, ShipmentDTO shipmentDTO) throws NotFoundException {
         Optional<Shipment> existing = shipmentRepository.findByCodeShp(codeShp);
         if (existing.isEmpty()){
-            throw new NotFoundException("code", "Shipment not found, codeShp invalid", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.SHIPMENT_CODE_NOT_FOUND, "Shipment not found, codeShp invalid", HttpStatus.NOT_FOUND);
         }else {
             Optional<Shelter> shelter = shelterRepository.findByCodeSh(shipmentDTO.getCodeSh());
             if (shelter.isEmpty()){
-                throw new NotFoundException("code", "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
+                throw new NotFoundException(ErrorCode.SHELTER_CODE_NOT_FOUND, "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
             }else {
                 Shipment shipment = existing.get();
                 shipment.setShelter(shelter.get());

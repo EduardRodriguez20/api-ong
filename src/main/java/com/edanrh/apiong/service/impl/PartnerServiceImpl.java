@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.PartnerDTO;
 import com.edanrh.apiong.dto.converts.PartnerDTOConvert;
@@ -35,7 +36,7 @@ public class PartnerServiceImpl implements PartnerService {
     public List<PartnerDTO> findAll() throws ContentNullException {
         List<Partner> result = (List<Partner>) partnerRepository.findAll();
         if (result.isEmpty()){
-            throw new ContentNullException("code", "There aren't partner data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.PARTNER_CONTENT_NOT_FOUND, "There aren't partner data", HttpStatus.NO_CONTENT);
         }else {
             List<PartnerDTO> resultDTO = new ArrayList<>();
             for (Partner partner : result) {
@@ -52,7 +53,7 @@ public class PartnerServiceImpl implements PartnerService {
     public PartnerDTO findByDocument(Long document) throws NotFoundException {
         Optional<Partner> result = partnerRepository.findByDocument(document);
         if (result.isEmpty()){
-            throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PARTNER_DOCUMENT_NOT_FOUND, "Document not found", HttpStatus.NOT_FOUND);
         }else {
             return dtoConvert.toDTO(result.get());
         }
@@ -65,15 +66,15 @@ public class PartnerServiceImpl implements PartnerService {
         Optional<AnnualFee> annualFee = annualFeeRepository.findByName(partner.getFee());
         Optional<Person> email = personRepository.findByEmail(partner.getData().getEmail());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.PERSON_DUPLICATE_CREATION, "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (head.isEmpty()) {
-            throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (annualFee.isEmpty()) {
-            throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.ANNUAL_FEE_NAME_NOT_FOUND, "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
         } else if (email.isPresent()) {
-            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.EMAIL_AVAILABLE, "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(partner.getData().getEmail())) {
-            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
+            throw new BussinesRuleException(ErrorCode.EMAIL_VALIDATION, "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Partner entity = dtoConvert.toEntity(partner);
             entity.setHeadquarter(head.get());
@@ -91,17 +92,17 @@ public class PartnerServiceImpl implements PartnerService {
         Optional<Person> email = personRepository.findByEmail(partner.getData().getEmail());
         Optional<Person> personExisting = personRepository.findByDocumentNumber(partner.getData().getDocumentNumber());
         if (existing.isEmpty()){
-            throw new NotFoundException("code", "Document invalid, don't partner exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PARTNER_DOCUMENT_NOT_FOUND, "Document invalid, don't partner exist", HttpStatus.NOT_FOUND);
         } else if (head.isEmpty()) {
-            throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (annualFee.isEmpty()) {
-            throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.ANNUAL_FEE_NAME_NOT_FOUND, "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
         } else if (email.isPresent()) {
-            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.EMAIL_AVAILABLE, "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (personExisting.isPresent()) {
-            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.PERSON_DUPLICATE_CREATION, "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(partner.getData().getEmail())) {
-            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
+            throw new BussinesRuleException(ErrorCode.EMAIL_VALIDATION, "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Partner entity = dtoConvert.toEntity(partner);
             entity.setHeadquarter(head.get());
@@ -116,7 +117,7 @@ public class PartnerServiceImpl implements PartnerService {
     public boolean delete(Long document) throws NotFoundException {
         Optional<Partner> existing = partnerRepository.findByDocument(document);
         if(existing.isEmpty()){
-            throw new NotFoundException("document", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PARTNER_DOCUMENT_NOT_FOUND, "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }else{
             partnerRepository.delete(existing.get());
             return true;

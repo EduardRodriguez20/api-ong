@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.MaterialAidDTO;
 import com.edanrh.apiong.dto.MaterialDTO;
 import com.edanrh.apiong.dto.converts.MaterialAidDTOConvert;
@@ -34,7 +35,7 @@ public class MaterialAidServiceImpl implements MaterialAidService {
     public List<MaterialAidDTO> findAll() throws ContentNullException {
         List<MaterialAid> result = (List<MaterialAid>) materialAidRepository.findAll();
         if (result.isEmpty()) {
-            throw new ContentNullException("code", "There isn't material aid data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.MATERIAL_AID_CONTENT_NOT_FOUND, "There isn't material aid data", HttpStatus.NO_CONTENT);
         }else {
             List<MaterialAidDTO> resultDTO = new ArrayList<>();
             for (MaterialAid materialAid : result) {
@@ -52,7 +53,7 @@ public class MaterialAidServiceImpl implements MaterialAidService {
     public MaterialAidDTO save(MaterialAidDTO materialAidDTO, Shipment shipment) throws NotFoundException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(materialAidDTO.getCodeHq());
         if (head.isEmpty()){
-            throw new NotFoundException("code", "Headquarter not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "Headquarter not found", HttpStatus.NOT_FOUND);
         }else {
             MaterialAid entity = new MaterialAid();
             entity.setHeadquarter(head.get());

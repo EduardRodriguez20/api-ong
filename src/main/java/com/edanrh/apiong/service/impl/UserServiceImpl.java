@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.UserDTO;
 import com.edanrh.apiong.dto.converts.UserDTOConvert;
@@ -32,14 +33,14 @@ public class UserServiceImpl implements UserService{
     public UserDTO save(UserDTO user) throws DuplicateCreationException, BussinesRuleException {
         Optional<UserEntity> existing = repositoryUser.findByEmail(user.getUsername());
         if (existing.isPresent()) {
-            throw new DuplicateCreationException("code", "User already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.USER_DUPLICATE_CREATION, "User already exists", HttpStatus.CONFLICT);
         }else{
             if (user.getRoleNames().contains("ROLE_DIRECTOR")){
-                throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
+                throw new BussinesRuleException(ErrorCode.USER_ROLE_VALIDATION, "You can't register a director role", HttpStatus.CONFLICT);
             }else if (!user.getRoleNames().contains("ROLE_ASSISTANT") && !user.getRoleNames().contains("ROLE_ADMIN")){
-                throw new BussinesRuleException("code", "Incorrect roles, verify", HttpStatus.CONFLICT);
+                throw new BussinesRuleException(ErrorCode.USER_ROLE_VALIDATION, "Incorrect roles, verify", HttpStatus.CONFLICT);
             }else if (!ValidateEmail.validateEmail(user.getUsername())){
-                throw new BussinesRuleException("code", "Email isn't valid", HttpStatus.CONFLICT);
+                throw new BussinesRuleException(ErrorCode.EMAIL_VALIDATION, "Email isn't valid", HttpStatus.CONFLICT);
             }else {
                 UserEntity entity = dtoConvert.toEntity(user);
                 for (String rol : user.getRoleNames()){
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService{
         if (existing.isPresent()) {
             return dtoConvert.toDTO(existing.get());
         }else{
-            throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.USER_EMAIL_NOT_FOUND, "User not found", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService{
     public List<UserDTO> findAll() throws ContentNullException {
         List<UserEntity> users = (List<UserEntity>) repositoryUser.findAll();
         if (users.isEmpty()){
-            throw new ContentNullException("code", "There isn't users", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.USER_CONTENT_NOT_FOUND, "There isn't users", HttpStatus.NO_CONTENT);
         }else {
             List<UserDTO> resultDto = new ArrayList<>();
             for (UserEntity user : users) {
@@ -79,10 +80,10 @@ public class UserServiceImpl implements UserService{
     public boolean edit(String email, UserDTO user) throws NotFoundException, BussinesRuleException {
         Optional<UserEntity> existing = repositoryUser.findByEmail(email);
         if (existing.isEmpty()){
-            throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.USER_EMAIL_NOT_FOUND, "User not found", HttpStatus.NOT_FOUND);
         }else{
             if (user.getRoleNames().contains("ROLE_DIRECTOR")){
-                throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
+                throw new BussinesRuleException(ErrorCode.USER_ROLE_VALIDATION, "You can't register a director role", HttpStatus.CONFLICT);
             }else {
                 UserEntity entity = existing.get();
                 entity.setPassword(user.getPassword());
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService{
     public boolean deleteByEmail(String email) throws NotFoundException {
         Optional<UserEntity> existing = repositoryUser.deleteByEmail(email);
         if (existing.isEmpty()){
-            throw new NotFoundException("code", "User not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.USER_EMAIL_NOT_FOUND, "User not found", HttpStatus.NOT_FOUND);
         }else {
             repositoryUser.delete(existing.get());
             return true;

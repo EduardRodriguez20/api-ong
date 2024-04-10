@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.AnnualFeeDTO;
 import com.edanrh.apiong.dto.converts.AnnualFeeDTOConvert;
 import com.edanrh.apiong.exceptions.ContentNullException;
@@ -31,7 +32,7 @@ public class AnnualFeeServiceImpl implements AnnualFeeService {
     public List<AnnualFeeDTO> findAll() throws ContentNullException {
         List<AnnualFee> result = (List<AnnualFee>) annualFeeRepository.findAll();
         if (result.isEmpty()){
-            throw new ContentNullException("code", "There isn't Annual fees data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.ANNUAL_FEE_CONTENT_NOT_FOUND, "There isn't Annual fees data", HttpStatus.NO_CONTENT);
         }else {
             List<AnnualFeeDTO> dtoList = new ArrayList<>();
             for (AnnualFee annualFee : result) {
@@ -46,9 +47,9 @@ public class AnnualFeeServiceImpl implements AnnualFeeService {
         Optional<AnnualFee> entity = annualFeeRepository.findByName(annualFeeDTO.getName());
         Optional<AnnualFee> existAmount = annualFeeRepository.findByAmount(annualFeeDTO.getAmount());
         if (entity.isPresent()) {
-            throw new DuplicateCreationException("code", "Annual Fee name already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.ANNUAL_FEE_DUPLICATE_CREATION, "Annual Fee name already exists", HttpStatus.CONFLICT);
         } else if (existAmount.isPresent()) {
-            throw new DuplicateCreationException("code", "Annual Fee amount already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.ANNUAL_FEE_DUPLICATE_CREATION, "Annual Fee amount already exists", HttpStatus.CONFLICT);
         } else {
             AnnualFee fee = annualFeeRepository.save(dtoConvert.toEntity(annualFeeDTO));
             return dtoConvert.toDTO(fee);
@@ -61,7 +62,7 @@ public class AnnualFeeServiceImpl implements AnnualFeeService {
         Optional<AnnualFee> existAmount = annualFeeRepository.findByAmount(annualFeeDTO.getAmount());
         if (entity.isPresent()) {
             if (existAmount.isPresent()) {
-                throw new DuplicateCreationException("code", "Annual Fee amount already exists", HttpStatus.CONFLICT);
+                throw new DuplicateCreationException(ErrorCode.ANNUAL_FEE_DUPLICATE_CREATION, "Annual Fee amount already exists", HttpStatus.CONFLICT);
             }else {
                 entity.get().setName(annualFeeDTO.getName());
                 entity.get().setAmount(annualFeeDTO.getAmount());
@@ -69,7 +70,7 @@ public class AnnualFeeServiceImpl implements AnnualFeeService {
                 return true;
             }
         }else {
-            throw new NotFoundException("code", "Annual Fee doesn't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.ANNUAL_FEE_NAME_NOT_FOUND, "Annual Fee doesn't exist", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -78,9 +79,9 @@ public class AnnualFeeServiceImpl implements AnnualFeeService {
         Optional<AnnualFee> entity = annualFeeRepository.findByName(name);
         Optional<Partner> partner = partnerRepository.findFirstByNameFee(name);
         if (entity.isEmpty()) {
-            throw new NotFoundException("code", "Annual Fee doesn't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.ANNUAL_FEE_NAME_NOT_FOUND, "Annual Fee doesn't exist", HttpStatus.NOT_FOUND);
         }else if (partner.isPresent()){
-            throw new ReferencedEntityException("code", "Annual fee has partners relationship", HttpStatus.CONFLICT);
+            throw new ReferencedEntityException(ErrorCode.ANNUAL_FEE_REFERENCED_EXIST, "Annual fee has partners relationship", HttpStatus.CONFLICT);
         } else {
             annualFeeRepository.delete(entity.get());
             return true;

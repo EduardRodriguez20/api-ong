@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.ProfessionDTO;
 import com.edanrh.apiong.dto.converts.ProfessionDTOConvert;
 import com.edanrh.apiong.exceptions.ContentNullException;
@@ -27,7 +28,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     public List<ProfessionDTO> findAll() throws ContentNullException {
         List<Profession> result = (List<Profession>) professionRepository.findAll();
         if (result.isEmpty()) {
-            throw new ContentNullException("code", "There aren't profession data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.PROFESSION_CONTENT_NOT_FOUND, "There aren't profession data", HttpStatus.NO_CONTENT);
         }else {
             List<ProfessionDTO> resultDTO = new ArrayList<>();
             for (Profession profession : result) {
@@ -41,7 +42,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     public ProfessionDTO save(ProfessionDTO professionDTO) throws DuplicateCreationException {
         Optional<Profession> existing = professionRepository.findByName(professionDTO.getName());
         if (existing.isPresent()) {
-            throw new DuplicateCreationException("code", "Profession already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.PROFESSION_DUPLICATE_CREATION, "Profession already exists", HttpStatus.CONFLICT);
         }else {
             Profession saved = professionRepository.save(dtoConvert.toEntity(professionDTO));
             saved.generateCodeSh();
@@ -54,7 +55,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     public boolean edit(String codePr, ProfessionDTO professionDTO) throws NotFoundException {
         Optional<Profession> existing = professionRepository.findByCodePr(codePr);
         if (existing.isEmpty()) {
-            throw new NotFoundException("code", "Profession doesn't exist, valid codePr", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PROFESSION_CODE_NOT_FOUND, "Profession doesn't exist, valid codePr", HttpStatus.NOT_FOUND);
         }else {
             existing.get().setName(professionDTO.getName());
             professionRepository.save(existing.get());
@@ -66,7 +67,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     public boolean delete(String codePr) throws NotFoundException {
         Optional<Profession> existing = professionRepository.findByCodePr(codePr);
         if (existing.isEmpty()) {
-            throw new NotFoundException("code", "Profession doesn't exist, valid codePr", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PROFESSION_CODE_NOT_FOUND, "Profession doesn't exist, valid codePr", HttpStatus.NOT_FOUND);
         }else {
             professionRepository.delete(existing.get());
             return true;

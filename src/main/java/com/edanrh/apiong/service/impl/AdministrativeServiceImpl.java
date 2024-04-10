@@ -1,5 +1,6 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.AdministrativeDTO;
 import com.edanrh.apiong.dto.converts.AdministrativeDTOConvert;
@@ -38,7 +39,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     public List<AdministrativeDTO> findAll() throws ContentNullException {
         List<Administrative> result = (List<Administrative>) administrativeRepository.findAll();
         if (result.isEmpty()){
-            throw new ContentNullException("code", "There isn't administrative data", HttpStatus.NO_CONTENT);
+            throw new ContentNullException(ErrorCode.ADMIN_CONTENT_NOT_FOUND, "There isn't administrative data", HttpStatus.NO_CONTENT);
         }
         List<AdministrativeDTO> resultDTO = new ArrayList<>();
         for (Administrative entity : result) {
@@ -51,7 +52,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     public AdministrativeDTO findByDocument(Long document) throws NotFoundException {
         Optional<Administrative> result = administrativeRepository.findByDocument(document);
         if (result.isEmpty()) {
-            throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.ADMIN_DOCUMENT_NOT_FOUND, "Document not found", HttpStatus.NOT_FOUND);
         }
         return dtoConvert.toDTO(result.get());
     }
@@ -63,15 +64,15 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Optional<Person> existing = personRepository.findByDocumentNumber(administrativeDTO.getData().getDocumentNumber());
         Optional<Person> email = personRepository.findByEmail(administrativeDTO.getData().getEmail());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.ADMIN_DUPLICATE_CREATION, "Document number belongs to another person", HttpStatus.CONFLICT);
         }else if (head.isEmpty()){
-            throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()){
-            throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PROFESSION_CODE_NOT_FOUND, "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (email.isPresent()) {
-            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.EMAIL_AVAILABLE, "Email isn't available, already exists", HttpStatus.CONFLICT);
         }  else if (!ValidateEmail.validateEmail(administrativeDTO.getData().getEmail())) {
-            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
+            throw new BussinesRuleException(ErrorCode.EMAIL_VALIDATION, "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Administrative entity = dtoConvert.toEntity(administrativeDTO);
             entity.setHeadquarter(head.get());
@@ -88,15 +89,15 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Optional<Person> email = personRepository.findByEmail(administrativeDTO.getData().getEmail());
         Optional<Person> existing = personRepository.findByDocumentNumber(administrativeDTO.getData().getDocumentNumber());
         if (result.isEmpty()){
-            throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.ADMIN_DOCUMENT_NOT_FOUND, "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }else if (head.isEmpty()){
-            throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.HEADQUARTER_CODE_NOT_FOUND, "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()){
-            throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PROFESSION_CODE_NOT_FOUND, "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (email.isPresent()) {
-            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.EMAIL_VALIDATION, "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException(ErrorCode.PERSON_DUPLICATE_CREATION, "Document number belongs to another person", HttpStatus.CONFLICT);
         }else if (!ValidateEmail.validateEmail(administrativeDTO.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
@@ -116,7 +117,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             administrativeRepository.delete(result.get());
             return true;
         }else{
-            throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
+            throw new NotFoundException(ErrorCode.ADMIN_DOCUMENT_NOT_FOUND, "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }
     }
 }
