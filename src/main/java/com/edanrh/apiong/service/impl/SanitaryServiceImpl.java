@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.edanrh.apiong.common.ValidateEmail;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.repository.PersonRepository;
 import com.edanrh.apiong.repository.entities.Person;
 import lombok.AllArgsConstructor;
@@ -70,7 +72,7 @@ public class SanitaryServiceImpl implements SanitaryService{
     }
 
     @Override
-    public SanitaryDTO save(SanitaryDTO sanitaryDTO) throws DuplicateCreationException, NotFoundException {
+    public SanitaryDTO save(SanitaryDTO sanitaryDTO) throws DuplicateCreationException, NotFoundException, BussinesRuleException {
         Optional<Sanitary> existing = sanitaryRepository.findByDocument(sanitaryDTO.getData().getDocumentNumber());
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(sanitaryDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
@@ -83,17 +85,20 @@ public class SanitaryServiceImpl implements SanitaryService{
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (!ValidateEmail.validateEmail(sanitaryDTO.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Sanitary sanitary = dtoConvert.toEntity(sanitaryDTO);
             sanitary.setHeadquarter(head.get());
             sanitary.setProfession(profession.get());
             sanitary.setIsAvailable(true);
+            sanitary.setParticipation(0);
             return dtoConvert.toDTO(sanitaryRepository.save(sanitary));
         }
     }
 
     @Override
-    public boolean edit(Long document, SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException {
+    public boolean edit(Long document, SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Sanitary> existing = sanitaryRepository.findByDocument(document);
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(sanitaryDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
@@ -106,6 +111,8 @@ public class SanitaryServiceImpl implements SanitaryService{
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (!ValidateEmail.validateEmail(sanitaryDTO.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Sanitary sanitary = dtoConvert.toEntity(sanitaryDTO);
             sanitary.setHeadquarter(head.get());

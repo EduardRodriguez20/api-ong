@@ -1,10 +1,10 @@
 package com.edanrh.apiong.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.UserDTO;
 import com.edanrh.apiong.dto.converts.UserDTOConvert;
 import com.edanrh.apiong.exceptions.BussinesRuleException;
@@ -38,6 +38,8 @@ public class UserServiceImpl implements UserService{
                 throw new BussinesRuleException("code", "You can't register a director role", HttpStatus.CONFLICT);
             }else if (!user.getRoleNames().contains("ROLE_ASSISTANT") && !user.getRoleNames().contains("ROLE_ADMIN")){
                 throw new BussinesRuleException("code", "Incorrect roles, verify", HttpStatus.CONFLICT);
+            }else if (!ValidateEmail.validateEmail(user.getUsername())){
+                throw new BussinesRuleException("code", "Email isn't valid", HttpStatus.CONFLICT);
             }else {
                 UserEntity entity = dtoConvert.toEntity(user);
                 for (String rol : user.getRoleNames()){

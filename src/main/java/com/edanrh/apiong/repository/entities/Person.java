@@ -6,6 +6,7 @@ import com.edanrh.apiong.resources.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,21 +30,20 @@ public abstract class Person {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @NotEmpty(message = "Document type can't be empty")
+    @NotNull(message = "Document type can't be empty")
     @Column(name = "documentType", nullable = false)
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
-    @NotEmpty(message = "Document number can't be empty")
+    @NotNull(message = "Document number can't be empty")
     @Column(name = "document", nullable = false)
     private Long documentNumber;
 
-    @NotEmpty(message = "Gender can't be empty")
+    @NotNull(message = "Gender can't be empty")
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Email(message = "Must be a valid email address")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 

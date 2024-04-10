@@ -18,7 +18,6 @@ public class Headquarter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "Code Headquarter can't be empty")
     @Column(name = "code_hq", unique = true)
     private String codeHq;
 

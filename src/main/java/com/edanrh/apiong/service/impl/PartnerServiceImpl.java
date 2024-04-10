@@ -1,7 +1,9 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.PartnerDTO;
 import com.edanrh.apiong.dto.converts.PartnerDTOConvert;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -57,7 +59,7 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public PartnerDTO save(PartnerDTO partner) throws DuplicateCreationException, NotFoundException {
+    public PartnerDTO save(PartnerDTO partner) throws DuplicateCreationException, NotFoundException, BussinesRuleException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(partner.getCodeHq());
         Optional<Partner> existing = partnerRepository.findByDocument(partner.getData().getDocumentNumber());
         Optional<AnnualFee> annualFee = annualFeeRepository.findByName(partner.getFee());
@@ -70,6 +72,8 @@ public class PartnerServiceImpl implements PartnerService {
             throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (!ValidateEmail.validateEmail(partner.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Partner entity = dtoConvert.toEntity(partner);
             entity.setHeadquarter(head.get());
@@ -80,7 +84,7 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public boolean edit(Long document, PartnerDTO partner) throws NotFoundException, DuplicateCreationException {
+    public boolean edit(Long document, PartnerDTO partner) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(partner.getCodeHq());
         Optional<Partner> existing = partnerRepository.findByDocument(partner.getData().getDocumentNumber());
         Optional<AnnualFee> annualFee = annualFeeRepository.findByName(partner.getFee());
@@ -93,6 +97,8 @@ public class PartnerServiceImpl implements PartnerService {
             throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (!ValidateEmail.validateEmail(partner.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Partner entity = dtoConvert.toEntity(partner);
             entity.setHeadquarter(head.get());

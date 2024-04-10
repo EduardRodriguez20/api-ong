@@ -4,6 +4,7 @@ import com.edanrh.apiong.resources.enums.MaterialType;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Material {
     @Enumerated(EnumType.STRING)
     private MaterialType material;
 
-    @NotEmpty(message = "Quantity can't be empty")
+    @NotNull(message = "Quantity can't be empty")
     @Column(name = "quantity", nullable = false)
     private double quantity;
 

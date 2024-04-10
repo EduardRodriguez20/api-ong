@@ -1,6 +1,5 @@
 package com.edanrh.apiong.repository.entities;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 

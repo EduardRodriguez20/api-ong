@@ -1,7 +1,9 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.AdministrativeDTO;
 import com.edanrh.apiong.dto.converts.AdministrativeDTOConvert;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -55,7 +57,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     @Override
-    public AdministrativeDTO save(AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException {
+    public AdministrativeDTO save(AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
         Optional<Administrative> existing = administrativeRepository.findByDocument(administrativeDTO.getData().getDocumentNumber());
@@ -68,6 +70,8 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        }  else if (!ValidateEmail.validateEmail(administrativeDTO.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Administrative entity = dtoConvert.toEntity(administrativeDTO);
             entity.setHeadquarter(head.get());
@@ -77,7 +81,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     @Override
-    public boolean edit(Long document, AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException {
+    public boolean edit(Long document, AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
         Optional<Administrative> result = administrativeRepository.findByDocument(document);
@@ -90,6 +94,8 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (!ValidateEmail.validateEmail(administrativeDTO.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Administrative save = dtoConvert.toEntity(administrativeDTO);
             save.setId(result.get().getId());

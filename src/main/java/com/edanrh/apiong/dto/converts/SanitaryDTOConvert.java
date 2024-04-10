@@ -25,7 +25,7 @@ public class SanitaryDTOConvert {
 
     public Sanitary toEntity(SanitaryDTO sanitaryDTO){
         Sanitary sanitary = mapper.map(sanitaryDTO, Sanitary.class);
-        System.out.println("sanitary dto before add data"+sanitary);
+        System.out.println("sanitary dto before add data"+sanitary + " "+ sanitaryDTO.getData());
         personDTOConvert.addPersonalData(sanitary, sanitaryDTO.getData());
         System.out.println("sanitary dto after add data"+sanitary);
         return sanitary;

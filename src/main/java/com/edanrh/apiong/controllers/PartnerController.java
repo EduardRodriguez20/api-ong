@@ -1,6 +1,7 @@
 package com.edanrh.apiong.controllers;
 
 import com.edanrh.apiong.dto.PartnerDTO;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -40,7 +41,7 @@ public class PartnerController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody PartnerDTO partnerDTO) throws DuplicateCreationException, NotFoundException {
+    public ResponseEntity<?> save(@Valid @RequestBody PartnerDTO partnerDTO) throws DuplicateCreationException, NotFoundException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             PartnerDTO partner = partnerService.save(partnerDTO);
@@ -55,7 +56,7 @@ public class PartnerController {
     }
 
     @PutMapping("/edit/{document}")
-    public ResponseEntity<?> edit(@Valid @RequestBody PartnerDTO partnerDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
+    public ResponseEntity<?> edit(@Valid @RequestBody PartnerDTO partnerDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             partnerService.edit(document,partnerDTO);

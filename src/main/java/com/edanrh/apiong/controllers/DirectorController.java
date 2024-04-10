@@ -1,6 +1,7 @@
 package com.edanrh.apiong.controllers;
 
 import com.edanrh.apiong.dto.DirectorDTO;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -40,7 +41,7 @@ public class DirectorController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException {
+    public ResponseEntity<?> save(@Valid @RequestBody DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             DirectorDTO resultDto = directorService.save(directorDTO);
@@ -55,7 +56,7 @@ public class DirectorController {
     }
 
     @PutMapping("/edit/{document}")
-    public ResponseEntity<?> edit(@Valid @RequestBody DirectorDTO directorDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
+    public ResponseEntity<?> edit(@Valid @RequestBody DirectorDTO directorDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             directorService.edit(document ,directorDTO);

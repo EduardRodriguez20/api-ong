@@ -1,6 +1,7 @@
 package com.edanrh.apiong.controllers;
 
 import com.edanrh.apiong.dto.SanitaryDTO;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -54,7 +55,7 @@ public class SanitaryController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException {
+    public ResponseEntity<?> save(@Valid @RequestBody SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             SanitaryDTO result = sanitaryService.save(sanitaryDTO);
@@ -69,7 +70,7 @@ public class SanitaryController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> edit(@Valid @RequestBody SanitaryDTO sanitaryDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
+    public ResponseEntity<?> edit(@Valid @RequestBody SanitaryDTO sanitaryDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             sanitaryService.edit(document, sanitaryDTO);

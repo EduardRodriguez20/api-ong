@@ -1,6 +1,7 @@
 package com.edanrh.apiong.controllers;
 
 import com.edanrh.apiong.dto.AdministrativeDTO;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -40,7 +41,7 @@ public class AdministrativeController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException {
+    public ResponseEntity<?> save(@Valid @RequestBody AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             AdministrativeDTO result = administrativeService.save(administrativeDTO);
@@ -55,7 +56,7 @@ public class AdministrativeController {
     }
 
     @PutMapping("/edit/{document}")
-    public ResponseEntity<?> edit(@Valid @RequestBody AdministrativeDTO administrativeDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException {
+    public ResponseEntity<?> edit(@Valid @RequestBody AdministrativeDTO administrativeDTO, @RequestParam Long document) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Map<String,Object> response=new HashMap<>();
         try{
             administrativeService.edit(document,administrativeDTO);

@@ -27,7 +27,7 @@ public class Partner extends Person {
     @JoinColumn(name = "id_headquarter", nullable = false)
     private Headquarter headquarter;
 
-    @NotEmpty(message = "The account can't be null")
+    @NotNull(message = "The account can't be null")
     @Column(name = "account", nullable = false)
     private Long bankAccount;
 
@@ -36,7 +36,7 @@ public class Partner extends Person {
     @JoinColumn(name = "id_fee", nullable = false)
     private AnnualFee fee;
 
-    @NotEmpty(message = "The payment date can't be null")
+    @NotNull(message = "The payment date can't be null")
     @Column(name = "payment_date", nullable = false)
     private LocalDate paymentDate;
 

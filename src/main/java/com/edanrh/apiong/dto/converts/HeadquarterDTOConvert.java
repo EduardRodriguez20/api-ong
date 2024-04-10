@@ -15,7 +15,9 @@ public class HeadquarterDTOConvert {
     private ModelMapper mapper;
 
     public HeadquarterDTO toDTO(Headquarter headquarter) {
-        return mapper.map(headquarter, HeadquarterDTO.class);
+        HeadquarterDTO dto = mapper.map(headquarter, HeadquarterDTO.class);
+        dto.setCity(headquarter.getCity().getName());
+        return dto;
     }
 
     public Headquarter toEntity(HeadquarterDTO headquarterDTO) {

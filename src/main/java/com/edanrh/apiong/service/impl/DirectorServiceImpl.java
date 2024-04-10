@@ -1,7 +1,9 @@
 package com.edanrh.apiong.service.impl;
 
+import com.edanrh.apiong.common.ValidateEmail;
 import com.edanrh.apiong.dto.DirectorDTO;
 import com.edanrh.apiong.dto.converts.DirectorDTOConvert;
+import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -54,7 +56,7 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public DirectorDTO save(DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException {
+    public DirectorDTO save(DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Headquarter> headquarter = headquarterRepository.findByCodeHq(directorDTO.getCodeHq());
         Optional<Director> existing = directorRepository.findByDocument(directorDTO.getData().getDocumentNumber());
         Optional<Person> person = personRepository.findByEmail(directorDTO.getData().getEmail());
@@ -64,6 +66,8 @@ public class DirectorServiceImpl implements DirectorService {
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (!ValidateEmail.validateEmail(directorDTO.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Director director = dtoConvert.toEntity(directorDTO);
             director.setHeadquarter(headquarter.get());
@@ -75,7 +79,7 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public boolean edit(Long document, DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException {
+    public boolean edit(Long document, DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Director> director = directorRepository.findByDocument(document);
         Optional<Headquarter> headquarter = headquarterRepository.findByCodeHq(directorDTO.getCodeHq());
         Optional<Person> person = personRepository.findByEmail(directorDTO.getData().getEmail());
@@ -85,7 +89,9 @@ public class DirectorServiceImpl implements DirectorService {
             throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         } else if (person.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available", HttpStatus.CONFLICT);
-        }else {
+        } else if (!ValidateEmail.validateEmail(directorDTO.getData().getEmail())) {
+            throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
+        } else {
             Optional<UserEntity> user = repositoryUser.findByEmail(directorDTO.getData().getEmail());
             if (user.isEmpty()) {
                 throw new NotFoundException("code", "Error editing director credentials", HttpStatus.INTERNAL_SERVER_ERROR);

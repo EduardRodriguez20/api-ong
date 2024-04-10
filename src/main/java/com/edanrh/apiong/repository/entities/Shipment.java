@@ -25,7 +25,7 @@ public class Shipment {
     @Column(name = "code_shp", unique = true)
     private String codeShp;
 
-    @NotEmpty(message = "Departure date can't be null")
+    @NotNull(message = "Departure date can't be null")
     @Future(message = "The departure date can't be before the current one")
     @Column(name = "departure_date", nullable = false)
     private LocalDateTime departureDate;

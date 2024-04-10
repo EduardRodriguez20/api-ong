@@ -26,8 +26,6 @@ public class HumanitarianAid {
     @JoinColumn(name = "id_profession", nullable = false)
     private Profession profession;
 
-    @NotEmpty(message = "Quantity can't be null")
-    @Column(name = "quantity", nullable = false)
     private int quantity;
 
     @NotNull(message = "Headquarter can't be null")
