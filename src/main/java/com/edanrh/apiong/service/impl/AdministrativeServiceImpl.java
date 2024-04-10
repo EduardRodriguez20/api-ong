@@ -60,15 +60,15 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     public AdministrativeDTO save(AdministrativeDTO administrativeDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
-        Optional<Administrative> existing = administrativeRepository.findByDocument(administrativeDTO.getData().getDocumentNumber());
-        Optional<Person> person = personRepository.findByEmail(administrativeDTO.getData().getEmail());
+        Optional<Person> existing = personRepository.findByDocumentNumber(administrativeDTO.getData().getDocumentNumber());
+        Optional<Person> email = personRepository.findByEmail(administrativeDTO.getData().getEmail());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Administrative already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
         }else if (head.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()){
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         }  else if (!ValidateEmail.validateEmail(administrativeDTO.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
@@ -85,16 +85,19 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(administrativeDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(administrativeDTO.getCodePr());
         Optional<Administrative> result = administrativeRepository.findByDocument(document);
-        Optional<Person> person = personRepository.findByEmail(administrativeDTO.getData().getEmail());
+        Optional<Person> email = personRepository.findByEmail(administrativeDTO.getData().getEmail());
+        Optional<Person> existing = personRepository.findByDocumentNumber(administrativeDTO.getData().getDocumentNumber());
         if (result.isEmpty()){
             throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
         }else if (head.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()){
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
-        } else if (!ValidateEmail.validateEmail(administrativeDTO.getData().getEmail())) {
+        } else if (existing.isPresent()){
+            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+        }else if (!ValidateEmail.validateEmail(administrativeDTO.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Administrative save = dtoConvert.toEntity(administrativeDTO);

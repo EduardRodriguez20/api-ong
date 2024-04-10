@@ -20,7 +20,7 @@ public class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "The material can't be empty")
+    @NotNull(message = "The material can't be empty")
     @Column(name = "material_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private MaterialType material;

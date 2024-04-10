@@ -4,6 +4,7 @@ import com.edanrh.apiong.dto.AnnualFeeDTO;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.DuplicateCreationException;
 import com.edanrh.apiong.exceptions.NotFoundException;
+import com.edanrh.apiong.exceptions.ReferencedEntityException;
 import com.edanrh.apiong.service.AnnualFeeService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ public class AnnualFeeController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody AnnualFeeDTO annualFeeDTO) throws ContentNullException, DuplicateCreationException {
+    public ResponseEntity<?> save(@Valid @RequestBody AnnualFeeDTO annualFeeDTO) throws DuplicateCreationException {
         Map<String,Object> response=new HashMap<>();
         try{
             AnnualFeeDTO result = annualFeeService.save(annualFeeDTO);
@@ -47,7 +48,7 @@ public class AnnualFeeController {
     }
 
     @PutMapping("/edit/{name}")
-    public ResponseEntity<?> edit(@Valid @RequestBody AnnualFeeDTO annualFeeDTO, @PathVariable String name) throws ContentNullException, DuplicateCreationException, NotFoundException {
+    public ResponseEntity<?> edit(@Valid @RequestBody AnnualFeeDTO annualFeeDTO, @PathVariable String name) throws DuplicateCreationException, NotFoundException {
         Map<String,Object> response=new HashMap<>();
         try{
             annualFeeService.edit(name, annualFeeDTO);
@@ -61,7 +62,7 @@ public class AnnualFeeController {
     }
 
     @DeleteMapping("/delete/{name}")
-    public ResponseEntity<?> delete(@PathVariable String name) throws ContentNullException, NotFoundException {
+    public ResponseEntity<?> delete(@PathVariable String name) throws NotFoundException, ReferencedEntityException {
         Map<String,Object> response=new HashMap<>();
         try{
             annualFeeService.delete(name);

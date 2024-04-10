@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface AnnualFeeRepository extends CrudRepository<AnnualFee, Long>{
     Optional<AnnualFee> findByName(String name);
+
+    Optional<AnnualFee> findByAmount(double amount);
 }

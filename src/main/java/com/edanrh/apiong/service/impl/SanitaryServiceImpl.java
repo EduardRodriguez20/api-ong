@@ -73,17 +73,17 @@ public class SanitaryServiceImpl implements SanitaryService{
 
     @Override
     public SanitaryDTO save(SanitaryDTO sanitaryDTO) throws DuplicateCreationException, NotFoundException, BussinesRuleException {
-        Optional<Sanitary> existing = sanitaryRepository.findByDocument(sanitaryDTO.getData().getDocumentNumber());
+        Optional<Person> existing = personRepository.findByDocumentNumber(sanitaryDTO.getData().getDocumentNumber());
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(sanitaryDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
-        Optional<Person> person = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
+        Optional<Person> email = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Sanitary already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()) {
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(sanitaryDTO.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
@@ -100,17 +100,20 @@ public class SanitaryServiceImpl implements SanitaryService{
     @Override
     public boolean edit(Long document, SanitaryDTO sanitaryDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Sanitary> existing = sanitaryRepository.findByDocument(document);
+        Optional<Person> personExisting = personRepository.findByDocumentNumber(sanitaryDTO.getData().getDocumentNumber());
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(sanitaryDTO.getCodeHq());
         Optional<Profession> profession = professionRepository.findByCodePr(sanitaryDTO.getCodePr());
-        Optional<Person> person = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
+        Optional<Person> email = personRepository.findByEmail(sanitaryDTO.getData().getEmail());
         if (existing.isEmpty()){
             throw new NotFoundException("document", "Document not found", HttpStatus.NOT_FOUND);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (profession.isEmpty()) {
             throw new NotFoundException("code", "CodePr invalid, don't exist", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (personExisting.isPresent()){
+            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(sanitaryDTO.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {

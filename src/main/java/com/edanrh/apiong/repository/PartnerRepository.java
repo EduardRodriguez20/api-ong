@@ -13,4 +13,7 @@ public interface PartnerRepository extends CrudRepository<Partner, Long>{
 
     @Query("SELECT p FROM Partner p WHERE p.headquarter.codeHq = ?1")
     Optional<Partner> findFirstByCodeHq(String codeHq);
+
+    @Query("SELECT p FROM Partner p WHERE p.fee.name = ?1")
+    Optional<Partner> findFirstByNameFee(String name);
 }

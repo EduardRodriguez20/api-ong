@@ -5,9 +5,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.edanrh.apiong.repository.entities.MaterialAid;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MaterialAidRepository extends CrudRepository<MaterialAid, Long>{
     @Query("SELECT m FROM MaterialAid m WHERE m.headquarter.codeHq = ?1")
     Optional<MaterialAid> findFirstByCodeHq(String codeHq);
+
+    @Query("SELECT m FROM MaterialAid m WHERE m.shipment.codeShp = ?1")
+    List<MaterialAid> findByCodeShp(String codeShp);
 }

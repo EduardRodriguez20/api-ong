@@ -57,22 +57,25 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     public DirectorDTO save(DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
-        Optional<Headquarter> headquarter = headquarterRepository.findByCodeHq(directorDTO.getCodeHq());
-        Optional<Director> existing = directorRepository.findByDocument(directorDTO.getData().getDocumentNumber());
-        Optional<Person> person = personRepository.findByEmail(directorDTO.getData().getEmail());
+        Optional<Headquarter> head = headquarterRepository.findByCodeHq(directorDTO.getCodeHq());
+        Optional<Director> headOccupied = directorRepository.findByCodeHq(directorDTO.getCodeHq());
+        Optional<Person> email = personRepository.findByEmail(directorDTO.getData().getEmail());
+        Optional<Person> existing = personRepository.findByDocumentNumber(directorDTO.getData().getDocumentNumber());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Director already exists", HttpStatus.CONFLICT);
-        }else if (headquarter.isEmpty()){
+            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
+        } else if (head.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (headOccupied.isPresent()){
+            throw new DuplicateCreationException("code", "Headquarter has already a director", HttpStatus.CONFLICT);
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(directorDTO.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {
             Director director = dtoConvert.toEntity(directorDTO);
-            director.setHeadquarter(headquarter.get());
+            director.setHeadquarter(head.get());
             UserEntity user = new UserEntity(directorDTO.getData().getEmail(), directorDTO.getPassword());
-            user.getRoles().add(new RoleEntity("DIRECTOR"));
+            user.getRoles().add(new RoleEntity("ROLE_DIRECTOR"));
             repositoryUser.save(user);
             return dtoConvert.toDTO(directorRepository.save(director));
         }
@@ -82,13 +85,19 @@ public class DirectorServiceImpl implements DirectorService {
     public boolean edit(Long document, DirectorDTO directorDTO) throws NotFoundException, DuplicateCreationException, BussinesRuleException {
         Optional<Director> director = directorRepository.findByDocument(document);
         Optional<Headquarter> headquarter = headquarterRepository.findByCodeHq(directorDTO.getCodeHq());
-        Optional<Person> person = personRepository.findByEmail(directorDTO.getData().getEmail());
+        Optional<Director> headOccupied = directorRepository.findByCodeHq(directorDTO.getCodeHq());
+        Optional<Person> email = personRepository.findByEmail(directorDTO.getData().getEmail());
+        Optional<Person> existing = personRepository.findByDocumentNumber(directorDTO.getData().getDocumentNumber());
         if (headquarter.isEmpty()){
             throw new NotFoundException("code", "CodeHq invalid, don't exists", HttpStatus.NOT_FOUND);
-        }else if (director.isEmpty()){
+        } else if (headOccupied.isPresent()){
+            throw new DuplicateCreationException("code", "Headquarter has already a director", HttpStatus.CONFLICT);
+        } else if (director.isEmpty()){
             throw new NotFoundException("code", "Document invalid, don't exist", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available", HttpStatus.CONFLICT);
+        } else if (existing.isPresent()) {
+            throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(directorDTO.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {

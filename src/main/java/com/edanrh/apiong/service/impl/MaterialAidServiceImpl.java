@@ -58,7 +58,9 @@ public class MaterialAidServiceImpl implements MaterialAidService {
             entity.setHeadquarter(head.get());
             entity.setShipment(shipment);
             for (MaterialDTO dto : materialAidDTO.getMaterial()){
-                entity.getMaterial().add(materialDTOConvert.toEntity(dto));
+                Material material = materialDTOConvert.toEntity(dto);
+                material.setMaterialAid(entity);
+                entity.getMaterial().add(material);
             }
             return dtoConvert.toDTO(materialAidRepository.save(entity));
         }

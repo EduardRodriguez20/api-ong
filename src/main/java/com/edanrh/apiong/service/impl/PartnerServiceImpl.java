@@ -61,16 +61,16 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     public PartnerDTO save(PartnerDTO partner) throws DuplicateCreationException, NotFoundException, BussinesRuleException {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(partner.getCodeHq());
-        Optional<Partner> existing = partnerRepository.findByDocument(partner.getData().getDocumentNumber());
+        Optional<Person> existing = personRepository.findByDocumentNumber(partner.getData().getDocumentNumber());
         Optional<AnnualFee> annualFee = annualFeeRepository.findByName(partner.getFee());
-        Optional<Person> person = personRepository.findByEmail(partner.getData().getEmail());
+        Optional<Person> email = personRepository.findByEmail(partner.getData().getEmail());
         if (existing.isPresent()){
-            throw new DuplicateCreationException("code", "Partner already exists", HttpStatus.CONFLICT);
+            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (annualFee.isEmpty()) {
             throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(partner.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
@@ -88,15 +88,18 @@ public class PartnerServiceImpl implements PartnerService {
         Optional<Headquarter> head = headquarterRepository.findByCodeHq(partner.getCodeHq());
         Optional<Partner> existing = partnerRepository.findByDocument(partner.getData().getDocumentNumber());
         Optional<AnnualFee> annualFee = annualFeeRepository.findByName(partner.getFee());
-        Optional<Person> person = personRepository.findByEmail(partner.getData().getEmail());
+        Optional<Person> email = personRepository.findByEmail(partner.getData().getEmail());
+        Optional<Person> personExisting = personRepository.findByDocumentNumber(partner.getData().getDocumentNumber());
         if (existing.isEmpty()){
             throw new NotFoundException("code", "Document invalid, don't partner exist", HttpStatus.NOT_FOUND);
         } else if (head.isEmpty()) {
             throw new NotFoundException("code", "CodeHq invalid, headquarter don't exists", HttpStatus.NOT_FOUND);
         } else if (annualFee.isEmpty()) {
             throw new NotFoundException("code", "CodeFee invalid, annual fee don't exist", HttpStatus.NOT_FOUND);
-        } else if (person.isPresent()) {
+        } else if (email.isPresent()) {
             throw new DuplicateCreationException("code", "Email isn't available, already exists", HttpStatus.CONFLICT);
+        } else if (personExisting.isPresent()) {
+            throw new DuplicateCreationException("code", "Document number belongs to another person", HttpStatus.CONFLICT);
         } else if (!ValidateEmail.validateEmail(partner.getData().getEmail())) {
             throw new BussinesRuleException("code", "Must be a valid email address", HttpStatus.CONFLICT);
         } else {

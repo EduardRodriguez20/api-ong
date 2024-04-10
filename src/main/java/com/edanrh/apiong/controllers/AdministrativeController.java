@@ -24,7 +24,7 @@ public class AdministrativeController {
 
     private AdministrativeService administrativeService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/")
     public ResponseEntity<?> findAll() throws ContentNullException {
         Map<String,Object> response = new HashMap<>();
         List<AdministrativeDTO> result = administrativeService.findAll();

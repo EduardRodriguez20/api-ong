@@ -26,7 +26,6 @@ public class Shipment {
     private String codeShp;
 
     @NotNull(message = "Departure date can't be null")
-    @Future(message = "The departure date can't be before the current one")
     @Column(name = "departure_date", nullable = false)
     private LocalDateTime departureDate;
 

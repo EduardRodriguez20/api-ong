@@ -9,7 +9,7 @@ import com.edanrh.apiong.exceptions.QuantityEntityException;
 import java.util.List;
 
 public interface ShipmentService {
-    List<ShipmentDTO> findAll() throws NotFoundException;
+    List<ShipmentDTO> findAll() throws ContentNullException;
     ShipmentDTO save(ShipmentDTO shipmentDTO) throws NotFoundException, ContentNullException, QuantityEntityException, BussinesRuleException;
     boolean edit(String codeShp, ShipmentDTO shipmentDTO) throws NotFoundException;
 }

@@ -25,7 +25,7 @@ public class ShipmentController {
     private ShipmentService shipmentService;
 
     @GetMapping("/")
-    public ResponseEntity<?> findAll() throws NotFoundException {
+    public ResponseEntity<?> findAll() throws ContentNullException {
         Map<String,Object> response = new HashMap<>();
         List<ShipmentDTO> result = shipmentService.findAll();
         response.put("Shipments", result);
