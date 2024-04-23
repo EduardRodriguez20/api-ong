@@ -1,6 +1,7 @@
 package com.edanrh.apiong.controllers;
 
 import com.edanrh.apiong.dto.ShipmentDTO;
+import com.edanrh.apiong.dto.ShipmentEditDTO;
 import com.edanrh.apiong.exceptions.BussinesRuleException;
 import com.edanrh.apiong.exceptions.ContentNullException;
 import com.edanrh.apiong.exceptions.NotFoundException;
@@ -49,7 +50,7 @@ public class ShipmentController {
     }
 
     @PutMapping("/edit/{codeShp}")
-    public ResponseEntity<?> edit(@Valid @RequestBody ShipmentDTO shipmentDTO, @PathVariable String codeShp) throws NotFoundException {
+    public ResponseEntity<?> edit(@Valid @RequestBody ShipmentEditDTO shipmentDTO, @PathVariable String codeShp) throws NotFoundException, BussinesRuleException {
         Map<String,Object> response = new HashMap<>();
         try {
             shipmentService.edit(codeShp, shipmentDTO);

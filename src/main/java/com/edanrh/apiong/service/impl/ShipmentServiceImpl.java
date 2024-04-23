@@ -4,6 +4,7 @@ import com.edanrh.apiong.common.ErrorCode;
 import com.edanrh.apiong.dto.HumanitarianAidDTO;
 import com.edanrh.apiong.dto.MaterialAidDTO;
 import com.edanrh.apiong.dto.ShipmentDTO;
+import com.edanrh.apiong.dto.ShipmentEditDTO;
 import com.edanrh.apiong.dto.converts.HumanitarianAidDTOConvert;
 import com.edanrh.apiong.dto.converts.MaterialAidDTOConvert;
 import com.edanrh.apiong.dto.converts.ShipmentDTOConvert;
@@ -106,14 +107,17 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public boolean edit(String codeShp, ShipmentDTO shipmentDTO) throws NotFoundException {
+    public boolean edit(String codeShp, ShipmentEditDTO shipmentDTO) throws NotFoundException, BussinesRuleException {
         Optional<Shipment> existing = shipmentRepository.findByCodeShp(codeShp);
         if (existing.isEmpty()){
             throw new NotFoundException(ErrorCode.SHIPMENT_CODE_NOT_FOUND, "Shipment not found, codeShp invalid", HttpStatus.NOT_FOUND);
         }else {
+            LocalDateTime now = LocalDateTime.now();
             Optional<Shelter> shelter = shelterRepository.findByCodeSh(shipmentDTO.getCodeSh());
             if (shelter.isEmpty()){
                 throw new NotFoundException(ErrorCode.SHELTER_CODE_NOT_FOUND, "Shelter not found, codeSh invalid", HttpStatus.NOT_FOUND);
+            } else if (shipmentDTO.getDepartureDate().isBefore(now)){
+                throw new BussinesRuleException(ErrorCode.DATE_VALIDATION, "Departure date can't be before now", HttpStatus.BAD_REQUEST);
             }else {
                 Shipment shipment = existing.get();
                 shipment.setShelter(shelter.get());
@@ -122,7 +126,6 @@ public class ShipmentServiceImpl implements ShipmentService {
                 return true;
             }
         }
-
     }
 
 }
